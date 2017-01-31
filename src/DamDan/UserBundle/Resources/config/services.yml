@@ -1,0 +1,4 @@
+services:
+#    dam_dan_user.example:
+#        class: DamDan\UserBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

@@ -1,0 +1,11 @@
+dam_dan_user:
+    resource: "@DamDanUserBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+dam_dan_app:
+    resource: "@DamDanAppBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+
