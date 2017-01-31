@@ -8,4 +8,5 @@ dam_dan_app:
     type:     annotation
     prefix:   /
 
-
+dam_dan_user_logout:
+    path: /logout
