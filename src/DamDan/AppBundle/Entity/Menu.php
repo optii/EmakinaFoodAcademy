@@ -2,7 +2,12 @@
 
 namespace DamDan\AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\ManyToOne;
 
 /**
  * Menu
@@ -12,10 +17,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Menu
 {
-    const STATUS_DRAFT = "Brouillon";
-    const STATUS_REFUSED = "Refusé";
-    const STATUS_ACCEPTED = "Validé";
-    const STATUS_IN_VALIDATION = "En validation";
+    /**
+     * Status constants
+     */
+    const STATUS_DRAFT         = "STATUS_DRAFT";
+    const STATUS_REFUSED       = "STATUS_REFUSED";
+    const STATUS_ACCEPTED      = "STATUS_ACCEPTED";
+    const STATUS_IN_VALIDATION = "STATUS_IN_VALIDATION";
 
     /**
      * @var int
@@ -53,13 +61,41 @@ class Menu
      * @ORM\Column(name="status", type="string", length=50)
      */
     private $status;
-    /* TODO
+
     /**
      * One author has many menus.
-     * @ManyToOne(targetEntity="User", inversedBy="menus")
-     * @JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="DamDan\UserBundle\Entity\User", inversedBy="menus")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    //private $author;
+    private $author;
+
+    /**
+     * Many menus has many dishes.
+     * @ORM\ManyToMany(targetEntity="Dish", inversedBy="menus")
+     * @ORM\JoinTable(name="dishes_menus")
+     */
+    private $dishes;
+
+    public function __construct()
+    {
+        $this->dishes = new ArrayCollection();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param mixed $author
+     */
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+    }
 
     /**
      * Get id
@@ -166,5 +202,43 @@ class Menu
     {
         return $this->status;
     }
+
+    /**
+     * Get status constants
+     * @return array
+     */
+    public static function getStatusArray()
+    {
+        return [
+            "Draft"         => self::STATUS_DRAFT,
+            "Accepted"      => self::STATUS_ACCEPTED,
+            "In validation" => self::STATUS_IN_VALIDATION,
+            "Refused"       => self::STATUS_REFUSED
+        ];
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getDishes()
+    {
+        return $this->dishes;
+    }
+
+    /**
+     * @param ArrayCollection $dishes
+     */
+    public function setDishes(ArrayCollection $dishes)
+    {
+        $this->dishes = $dishes;
+    }
+
+    /**
+     * @param Dish $dish
+     */
+     public function addDish(Dish $dish)
+     {
+        $this->dishes->add($dish);
+     }
 }
 

@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 
 /**
  * Dish
@@ -16,10 +18,22 @@ use Doctrine\ORM\Mapping\ManyToMany;
  */
 class Dish
 {
-    const STATUS_DRAFT = "Brouillon";
-    const STATUS_REFUSED = "Refusé";
-    const STATUS_ACCEPTED = "Validé";
-    const STATUS_IN_VALIDATION = "En validation";
+    /**
+     * Status constants
+     */
+    const STATUS_DRAFT         = "STATUS_DRAFT";
+    const STATUS_REFUSED       = "STATUS_REFUSED";
+    const STATUS_ACCEPTED      = "STATUS_ACCEPTED";
+    const STATUS_IN_VALIDATION = "STATUS_IN_VALIDATION";
+
+    /**
+     * Categories constants
+     */
+    const CATEGORY_ENTRY       = "CATEGORY_ENTRY";
+    const CATEGORY_MAIN_COURSE = "CATEGORY_MAIN_COURSE";
+    const CATEGORY_CHEESE      = "CATEGORY_CHEESE";
+    const CATEGORY_DESSERT     = "CATEGORY_DESSERT";
+
     /**
      * @var int
      *
@@ -39,7 +53,7 @@ class Dish
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column(name="description", type="text")
      */
     private $description;
 
@@ -64,27 +78,47 @@ class Dish
      */
     private $homeMade;
 
-    /*TODO
     /**
-     * One author has many dishes.
-     * @ManyToOne(targetEntity="User", inversedBy="dishes")
-     * @JoinColumn(name="user_id", referencedColumnName="id")
+     * Many Features have One Product.
+     * @ORM\ManyToOne(targetEntity="DamDan\UserBundle\Entity\User", inversedBy="dishes")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    //private $author;
+    private $author;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="image", type="string", length=255)
+     */
+    private $image;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="category", type="string", length=100)
+     */
+    private $category;
 
     /**
      * Many Users have Many Groups.
-     * @ManyToMany(targetEntity="Allergen")
-     * @JoinTable(name="dishes_allergens",
-     *      joinColumns={@JoinColumn(name="dish_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@JoinColumn(name="allergen_id", referencedColumnName="id")}
+     * @ORM\ManyToMany(targetEntity="Allergen")
+     * @ORM\JoinTable(name="dishes_allergens",
+     *      joinColumns={@ORM\JoinColumn(name="dish_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="allergen_id", referencedColumnName="id")}
      *      )
      */
     private $allergens;
 
+    /**
+     * Many menus has many dishes.
+     * @ORM\ManyToMany(targetEntity="Menu", mappedBy="dishes")
+     */
+    private $menus;
+
     public function __construct()
     {
         $this->allergens = new ArrayCollection();
+        $this->menus = new ArrayCollection();
     }
 
     /**
@@ -179,7 +213,6 @@ class Dish
     public function setStatus($status)
     {
         $this->status = $status;
-
         return $this;
     }
 
@@ -191,6 +224,20 @@ class Dish
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Get status
+     * @return array
+     */
+    public static function getStatusArray()
+    {
+        return [
+            "Draft"         => self::STATUS_DRAFT,
+            "Accepted"      => self::STATUS_ACCEPTED,
+            "In validation" => self::STATUS_IN_VALIDATION,
+            "Refused"       => self::STATUS_REFUSED
+        ];
     }
 
     /**
@@ -225,5 +272,84 @@ class Dish
      public function getAllergens(){
         return $this->allergens;
      }
+
+    /**
+     * @return mixed
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param mixed $author
+     */
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+    }
+
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getMenus()
+    {
+        return $this->menus;
+    }
+
+    /**
+     * @param ArrayCollection $menus
+     */
+    public function setMenus($menus)
+    {
+        $this->menus = $menus;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param string $image
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param string $category
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    }
+
+    /**
+     * Get categories
+     * @return array
+     */
+    public static function getCategoriesArray()
+    {
+        return [
+            "Entry"       => self::CATEGORY_ENTRY,
+            "Main course" => self::CATEGORY_MAIN_COURSE,
+            "Cheese"      => self::CATEGORY_CHEESE,
+            "Dessert"     => self::CATEGORY_DESSERT
+        ];
+    }
 }
 

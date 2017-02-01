@@ -2,6 +2,7 @@
 
 namespace DamDan\UserBundle\Entity;
 
+use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
@@ -61,6 +62,16 @@ class User implements UserInterface
      * @var string
      */
     private $plainPassword;
+
+    /**
+     * @ORM\OneToMany(targetEntity="DamDan\AppBundle\Entity\Dish", mappedBy="author")
+     */
+    private $dishes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="DamDan\AppBundle\Entity\Menu", mappedBy="author")
+     */
+    private $menus;
 
     public function __construct()
     {
@@ -224,6 +235,37 @@ class User implements UserInterface
        $this->setPlainPassword(null);
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDishes()
+    {
+        return $this->dishes;
+    }
+
+    /**
+     * @param mixed $dishes
+     */
+    public function setDishes($dishes)
+    {
+        $this->dishes = $dishes;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMenus()
+    {
+        return $this->menus;
+    }
+
+    /**
+     * @param mixed $menus
+     */
+    public function setMenus($menus)
+    {
+        $this->menus = $menus;
+    }
 
     /** @see \Serializable::serialize() */
     public function serialize()
