@@ -1,11 +1,12 @@
 <?php
 
-namespace DamDan\AppBundle\Controller;
+namespace DamDan\AdminBundle\Controller;
 
 use DamDan\AppBundle\Entity\Menu;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Menu controller.
@@ -17,7 +18,7 @@ class MenuController extends Controller
     /**
      * Lists all menu entities.
      *
-     * @Route("/", name="menu_index")
+     * @Route("/", name="admin_menu_index")
      * @Method("GET")
      */
     public function indexAction()
@@ -26,7 +27,7 @@ class MenuController extends Controller
 
         $menus = $em->getRepository('DamDanAppBundle:Menu')->findAll();
 
-        return $this->render('menu/index.html.twig', array(
+        return $this->render('DamDanAdminBundle:menu:index.html.twig', array(
             'menus' => $menus,
         ));
     }
@@ -34,7 +35,7 @@ class MenuController extends Controller
     /**
      * Creates a new menu entity.
      *
-     * @Route("/new", name="menu_new")
+     * @Route("/new", name="admin_menu_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -48,10 +49,10 @@ class MenuController extends Controller
             $em->persist($menu);
             $em->flush($menu);
 
-            return $this->redirectToRoute('menu_show', array('id' => $menu->getId()));
+            return $this->redirectToRoute('admin_menu_show', array('id' => $menu->getId()));
         }
 
-        return $this->render('menu/new.html.twig', array(
+        return $this->render('DamDanAdminBundle:menu:new.html.twig', array(
             'menu' => $menu,
             'form' => $form->createView(),
         ));
@@ -60,14 +61,14 @@ class MenuController extends Controller
     /**
      * Finds and displays a menu entity.
      *
-     * @Route("/{id}", name="menu_show")
+     * @Route("/{id}", name="admin_menu_show")
      * @Method("GET")
      */
     public function showAction(Menu $menu)
     {
         $deleteForm = $this->createDeleteForm($menu);
 
-        return $this->render('menu/show.html.twig', array(
+        return $this->render('DamDanAdminBundle:menu:show.html.twig', array(
             'menu' => $menu,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -76,7 +77,7 @@ class MenuController extends Controller
     /**
      * Displays a form to edit an existing menu entity.
      *
-     * @Route("/{id}/edit", name="menu_edit")
+     * @Route("/{id}/edit", name="admin_menu_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Menu $menu)
@@ -88,10 +89,10 @@ class MenuController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('menu_edit', array('id' => $menu->getId()));
+            return $this->redirectToRoute('admin_menu_edit', array('id' => $menu->getId()));
         }
 
-        return $this->render('menu/edit.html.twig', array(
+        return $this->render('DamDanAdminBundle:menu:edit.html.twig', array(
             'menu' => $menu,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -101,7 +102,7 @@ class MenuController extends Controller
     /**
      * Deletes a menu entity.
      *
-     * @Route("/{id}", name="menu_delete")
+     * @Route("/{id}", name="admin_menu_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Menu $menu)
@@ -115,7 +116,7 @@ class MenuController extends Controller
             $em->flush($menu);
         }
 
-        return $this->redirectToRoute('menu_index');
+        return $this->redirectToRoute('admin_menu_index');
     }
 
     /**
@@ -128,7 +129,7 @@ class MenuController extends Controller
     private function createDeleteForm(Menu $menu)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('menu_delete', array('id' => $menu->getId())))
+            ->setAction($this->generateUrl('admin_menu_delete', array('id' => $menu->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;

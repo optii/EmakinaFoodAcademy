@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ breadcrumb({'home': 'home', 'admin_index': 'admin', 'admin_dish_index': 'dish', 'admin_dish_show': [dish.title, {id: dish.id}]}) }}
+
+    <h1>Dish</h1>
+
+    <table class="ui definition table">
+        <tbody>
+        <tr>
+            <td>Id</td>
+            <td>{{ dish.id }}</td>
+        </tr>
+        <tr>
+            <td>Title</td>
+            <td>{{ dish.title }}</td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td>{{ dish.description }}</td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td>{{ dish.price }}</td>
+        </tr>
+        <tr>
+            <td>Status</td>
+            <td>{{ dish.status }}</td>
+        </tr>
+        <tr>
+            <td>Homemade</td>
+            <td>{% if dish.homeMade %}Yes{% else %}No{% endif %}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a class="ui button inverted orange" href="{{ path('admin_dish_edit', { 'id': dish.id }) }}">Edit</a>
+
+    {{ form_start(delete_form) }}
+    <input class="ui button inverted red" type="submit" value="Delete">
+    {{ form_end(delete_form) }}
+
+{% endblock %}

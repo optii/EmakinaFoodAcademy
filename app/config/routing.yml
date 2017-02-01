@@ -1,19 +1,7 @@
-dam_dan_app_customer:
-    resource: "@DamDanAppBundle/Controller/CustomerController.php"
-    type:     annotation
-
-dam_dan_app_dish:
-    resource: "@DamDanAppBundle/Controller/DishController.php"
-    type:     annotation
-
-dam_dan_app_menu:
-    resource: "@DamDanAppBundle/Controller/MenuController.php"
-    type:     annotation
-
 dam_dan_admin:
     resource: "@DamDanAdminBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /admin
 
 dam_dan_user:
     resource: "@DamDanUserBundle/Controller/"

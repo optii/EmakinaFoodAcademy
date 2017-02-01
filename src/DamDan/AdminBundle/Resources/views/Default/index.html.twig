@@ -1,1 +1,8 @@
-Hello World!
+{% extends '::base.html.twig' %}
+{% block body %}
+    {{ breadcrumb({ 'home': 'home', 'admin_index': 'admin'}) }}
+    <h1>Admin home</h1>
+    <a class="ui button blue inverted" href="{{ path('admin_menu_index') }}">Menus</a>
+    <a class="ui button blue inverted" href="{{ path('admin_dish_index') }}">Dishes</a>
+    <a class="ui button blue inverted" href="{{ path('admin_user_index') }}">Users</a>
+{% endblock %}

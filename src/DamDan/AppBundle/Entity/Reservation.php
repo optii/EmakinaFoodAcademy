@@ -5,12 +5,12 @@ namespace DamDan\AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Customer
+ * Reservation
  *
- * @ORM\Table(name="customer")
- * @ORM\Entity(repositoryClass="DamDan\AppBundle\Repository\CustomerRepository")
+ * @ORM\Table(name="reservation")
+ * @ORM\Entity(repositoryClass="DamDan\AppBundle\Repository\ReservationRepository")
  */
-class Customer
+class Reservation
 {
     /**
      * @var int
@@ -24,16 +24,16 @@ class Customer
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="reservationDay", type="datetime")
+     * @ORM\Column(name="date", type="datetime")
      */
-    private $reservationDay;
+    private $date;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="personsNumber", type="integer")
+     * @ORM\Column(name="seats", type="integer")
      */
-    private $personsNumber;
+    private $seats;
 
     /**
      * @var string
@@ -68,70 +68,42 @@ class Customer
     }
 
     /**
-     * Set reservationDay
-     *
-     * @param \DateTime $reservationDay
-     *
-     * @return Customer
-     */
-    public function setReservationDay($reservationDay)
-    {
-        $this->reservationDay = $reservationDay;
-
-        return $this;
-    }
-
-    /**
-     * Get reservationDay
-     *
      * @return \DateTime
      */
-    public function getReservationDay()
+    public function getDate()
     {
-        return $this->reservationDay;
+        return $this->date;
     }
 
     /**
-     * Set personsNumber
-     *
-     * @param integer $personsNumber
-     *
-     * @return Customer
+     * @param \DateTime $date
+     * @return $this
      */
-    public function setPersonsNumber($personsNumber)
+    public function setDate($date)
     {
-        $this->personsNumber = $personsNumber;
-
+        $this->date = $date;
         return $this;
     }
 
     /**
-     * Get personsNumber
-     *
      * @return int
      */
-    public function getPersonsNumber()
+    public function getSeats()
     {
-        return $this->personsNumber;
+        return $this->seats;
     }
 
     /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return Customer
+     * @param int $seats
+     * @return $this
      */
-    public function setEmail($email)
+    public function setSeats($seats)
     {
-        $this->email = $email;
-
+        $this->seats = $seats;
         return $this;
     }
 
     /**
-     * Get email
-     *
      * @return string
      */
     public function getEmail()
@@ -140,22 +112,16 @@ class Customer
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Customer
+     * @param string $email
+     * @return $this
      */
-    public function setName($name)
+    public function setEmail($email)
     {
-        $this->name = $name;
-
+        $this->email = $email;
         return $this;
     }
 
     /**
-     * Get name
-     *
      * @return string
      */
     public function getName()
@@ -164,27 +130,36 @@ class Customer
     }
 
     /**
-     * Set phone
-     *
-     * @param string $phone
-     *
-     * @return Customer
+     * @param string $name
+     * @return $this
      */
-    public function setPhone($phone)
+    public function setName($name)
     {
-        $this->phone = $phone;
-
+        $this->name = $name;
         return $this;
     }
 
     /**
-     * Get phone
-     *
      * @return string
      */
     public function getPhone()
     {
         return $this->phone;
+    }
+
+    /**
+     * @param string $phone
+     * @return $this
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getName(). ' - '. $this->getSeats();
     }
 }
 
