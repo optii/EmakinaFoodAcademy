@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ breadcrumb({ 'home': 'home', 'admin_index': 'admin', 'admin_user_index': 'users'}) }}
+
+    <h1>Users list</h1>
+
+    <table class="ui table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Roles</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td><a href="{{ path('admin_user_show', { 'id': user.id }) }}">{{ user.id }}</a></td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{% if user.roles %}{{ user.roles|join(', ') }}{% endif %}</td>
+                <td>
+                    <a class="ui button inverted blue" href="{{ path('admin_user_show', { 'id': user.id }) }}">show</a>
+                    <a class="ui button inverted orange" href="{{ path('admin_user_edit', { 'id': user.id }) }}">edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="ui button inverted green" href="{{ path('admin_user_new') }}">Create a new user</a>
+
+{% endblock %}

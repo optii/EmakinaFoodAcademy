@@ -1,11 +1,12 @@
 <?php
 
-namespace DamDan\AppBundle\Controller;
+namespace DamDan\AdminBundle\Controller;
 
 use DamDan\AppBundle\Entity\Dish;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Dish controller.
@@ -17,7 +18,7 @@ class DishController extends Controller
     /**
      * Lists all dish entities.
      *
-     * @Route("/", name="dish_index")
+     * @Route("/", name="admin_dish_index")
      * @Method("GET")
      */
     public function indexAction()
@@ -26,7 +27,7 @@ class DishController extends Controller
 
         $dishes = $em->getRepository('DamDanAppBundle:Dish')->findAll();
 
-        return $this->render('dish/index.html.twig', array(
+        return $this->render('DamDanAdminBundle:dish:index.html.twig', array(
             'dishes' => $dishes,
         ));
     }
@@ -34,7 +35,7 @@ class DishController extends Controller
     /**
      * Creates a new dish entity.
      *
-     * @Route("/new", name="dish_new")
+     * @Route("/new", name="admin_dish_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -48,10 +49,10 @@ class DishController extends Controller
             $em->persist($dish);
             $em->flush($dish);
 
-            return $this->redirectToRoute('dish_show', array('id' => $dish->getId()));
+            return $this->redirectToRoute('admin_dish_show', array('id' => $dish->getId()));
         }
 
-        return $this->render('dish/new.html.twig', array(
+        return $this->render('DamDanAdminBundle:dish:new.html.twig', array(
             'dish' => $dish,
             'form' => $form->createView(),
         ));
@@ -60,14 +61,14 @@ class DishController extends Controller
     /**
      * Finds and displays a dish entity.
      *
-     * @Route("/{id}", name="dish_show")
+     * @Route("/{id}", name="admin_dish_show")
      * @Method("GET")
      */
     public function showAction(Dish $dish)
     {
         $deleteForm = $this->createDeleteForm($dish);
 
-        return $this->render('dish/show.html.twig', array(
+        return $this->render('DamDanAdminBundle:dish:show.html.twig', array(
             'dish' => $dish,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -76,7 +77,7 @@ class DishController extends Controller
     /**
      * Displays a form to edit an existing dish entity.
      *
-     * @Route("/{id}/edit", name="dish_edit")
+     * @Route("/{id}/edit", name="admin_dish_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Dish $dish)
@@ -88,10 +89,10 @@ class DishController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('dish_edit', array('id' => $dish->getId()));
+            return $this->redirectToRoute('admin_dish_edit', array('id' => $dish->getId()));
         }
 
-        return $this->render('dish/edit.html.twig', array(
+        return $this->render('DamDanAdminBundle:dish:edit.html.twig', array(
             'dish' => $dish,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -101,7 +102,7 @@ class DishController extends Controller
     /**
      * Deletes a dish entity.
      *
-     * @Route("/{id}", name="dish_delete")
+     * @Route("/{id}", name="admin_dish_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Dish $dish)
@@ -115,7 +116,7 @@ class DishController extends Controller
             $em->flush($dish);
         }
 
-        return $this->redirectToRoute('dish_index');
+        return $this->redirectToRoute('admin_dish_index');
     }
 
     /**
@@ -128,7 +129,7 @@ class DishController extends Controller
     private function createDeleteForm(Dish $dish)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('dish_delete', array('id' => $dish->getId())))
+            ->setAction($this->generateUrl('admin_dish_delete', array('id' => $dish->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;

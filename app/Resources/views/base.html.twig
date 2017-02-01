@@ -18,12 +18,12 @@
             Emakina Food Academy &trade;
         </a>
         <a href="" class="item">Home</a>
-        {% if is_granted('ROLE_CHEF') %}
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <div class="right menu">
                 <div class="ui simple dropdown item">
                     Admin <i class="dropdown icon"></i>
                     <div class="menu">
-                        <a class="item" href="">Menu</a>
+                        <a class="item" href="{{ path('admin_index') }}">Home</a>
                     </div>
                 </div>
                 <a class="item" href="{{ path('dam_dan_user_logout') }}">Logout</a>

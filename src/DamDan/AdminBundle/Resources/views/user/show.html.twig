@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ breadcrumb({ 'home': 'home', 'admin_index': 'Admin', 'admin_user_index': 'users', 'admin_user_show': [user.username, {id: user.id}]}) }}
+
+    <h1>User</h1>
+
+    <table class="ui definition table">
+        <tbody>
+        <tr>
+            <td>Id</td>
+            <td>{{ user.id }}</td>
+        </tr>
+        <tr>
+            <td>Username</td>
+            <td>{{ user.username }}</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>{{ user.email }}</td>
+        </tr>
+        <tr>
+            <td>Roles</td>
+            <td>{% if user.roles %}{{ user.roles|join(', ') }}{% endif %}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a class="ui button inverted orange" href="{{ path('admin_user_edit', { 'id': user.id }) }}">Edit</a>
+
+    {{ form_start(delete_form) }}
+        <input class="ui button inverted red" type="submit" value="Delete">
+    {{ form_end(delete_form) }}
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ breadcrumb({ 'home': 'home', 'admin_index': 'admin', 'admin_user_index': 'users', 'admin_user_new': 'new'}) }}
+
+    <h1>User creation</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+        <input class="ui button inverted green" type="submit" value="Create"/>
+    {{ form_end(form) }}
+{% endblock %}
