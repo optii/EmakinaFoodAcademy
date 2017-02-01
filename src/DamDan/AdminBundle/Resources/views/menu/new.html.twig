@@ -6,7 +6,11 @@
     <h1>Menu creation</h1>
 
     {{ form_start(form) }}
-        {{ form_widget(form) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.price) }}
+        {{ form_row(form.appearanceOrder) }}
+        {{ form_row(form.status) }}
+        {{ form_row(form.dishes, { 'attr': {'class': 'ui fluid dropdown'} }) }}
         <input class="ui button green inverted" type="submit" value="Create" />
     {{ form_end(form) }}
 {% endblock %}

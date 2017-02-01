@@ -45,6 +45,7 @@ class DishController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $dish->setAuthor($this->getUser());
             $em = $this->getDoctrine()->getManager();
             $em->persist($dish);
             $em->flush($dish);

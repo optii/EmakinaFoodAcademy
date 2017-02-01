@@ -18,7 +18,9 @@ class DishType extends AbstractType
         $builder->add('title')
                 ->add('description')
                 ->add('price')
+                ->add('image')
                 ->add('status', ChoiceType::class, array('choices' => Dish::getStatusArray()))
+                ->add('category', ChoiceType::class, array('choices' => Dish::getCategoriesArray()))
                 ->add('homeMade');
     }
     
