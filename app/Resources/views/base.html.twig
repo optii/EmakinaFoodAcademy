@@ -42,7 +42,7 @@
         </div>
     </div>
 </div>
-<div style="margin-top:50px;min-height: 300px;margin-bottom:50px;" class="ui container">
+<div class="ui container body">
     {% for label, flashes in app.session.flashbag.all %}
         {% for flash in flashes %}
             <div class="ui {{ label }} message">

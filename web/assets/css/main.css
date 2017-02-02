@@ -2,16 +2,22 @@
     padding: 10px;
 }
 
+.body {
+    min-height: 300px;
+    margin-top:50px;
+    margin-bottom:50px;
+}
+
 .cover{
-    background-image: url('../../img/cover2.jpg');
-    height: 320px;
-    background-size: cover;
-    background-position:  0% 100%;
-    background-attachment: fixed;
     text-align: center;
     color: white;
     display: flex;
     justify-content: center;
+    height: 320px;
+    background-image: url('../../img/cover.jpg');
+    background-position:  0% 100%;
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 .inner {
