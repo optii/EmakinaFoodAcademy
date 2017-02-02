@@ -15,6 +15,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User implements UserInterface
 {
+    /** User role constants */
+    const ROLE_SERVER = 'ROLE_SERVER';
+    const ROLE_EDITOR = 'ROLE_EDITOR';
+    const ROLE_REVIEWER = 'ROLE_REVIEWER';
+    const ROLE_CHEF = 'ROLE_CHEF';
+
     /**
      * @var int
      *
@@ -264,6 +270,35 @@ class User implements UserInterface
     public function setMenus($menus)
     {
         $this->menus = $menus;
+    }
+
+    /**
+     * Get Role Names
+     *
+     * @return array
+     */
+    public function getRoleNames(){
+        $roleNames = array_flip(self::getRolesArray());
+        $res = [];
+        foreach($this->getRoles() as $role){
+            $res[] = $roleNames[$role];
+        }
+
+        return $res;
+    }
+
+    /**
+     * Get roles arrray
+     *
+     * @return array
+     */
+    public static function getRolesArray(){
+        return [
+            'Server' => self::ROLE_SERVER,
+            'Editor' => self::ROLE_EDITOR,
+            'Reviewer' => self::ROLE_REVIEWER,
+            'Chef' => self::ROLE_CHEF
+        ];
     }
 
     /** @see \Serializable::serialize() */

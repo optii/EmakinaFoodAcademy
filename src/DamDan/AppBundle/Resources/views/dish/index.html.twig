@@ -1,0 +1,32 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+    <h1 class="ui horizontal header divider">Our dishes</h1>
+    <div class="ui cards">
+        {% for dish in dishes %}
+            <div class="card">
+                <div class="image">
+                    <img src="{{ dish.image }}">
+                </div>
+                <div class="content text-center">
+                    <div class="header">{{ dish.title }}</div>
+                    <div class="description">
+                        {{ dish.description }}
+                    </div>
+                </div>
+                <div class="extra content">
+                    <span class="right floated">
+                        <a href="{{ path('dish_show', {id: dish.id}) }}">More</a>
+                    </span>
+                    <span>
+                        <div class="ui label {{ dish.categoryColor }}">
+                            {{ dish.categoryName }}
+                        </div>
+                    </span>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+
+{% endblock %}

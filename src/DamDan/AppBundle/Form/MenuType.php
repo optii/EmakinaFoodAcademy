@@ -22,7 +22,6 @@ class MenuType extends AbstractType
         ->add('appearanceOrder')
         ->add('status', ChoiceType::class, array('choices' => Dish::getStatusArray()))
         ->add('dishes', EntityType::class, array(
-            // query choices from this entity
             'class' => 'DamDanAppBundle:Dish',
             'multiple' => true
         ));

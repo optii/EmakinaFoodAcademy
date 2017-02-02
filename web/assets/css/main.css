@@ -1,0 +1,23 @@
+.container.main{
+    padding: 10px;
+}
+
+.cover{
+    background-image: url('../../img/cover2.jpg');
+    height: 320px;
+    background-size: cover;
+    background-position:  0% 100%;
+    background-attachment: fixed;
+    text-align: center;
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+.inner {
+    align-self: center;
+}
+
+.text-center{
+    text-align: center;
+}

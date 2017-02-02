@@ -200,6 +200,15 @@ class Menu
     }
 
     /**
+     * Get Status Name
+     *
+     * @return string
+     */
+    public function getStatusName(){
+        return array_flip(self::getStatusArray())[$this->getStatus()];
+    }
+
+    /**
      * Get status constants
      * @return array
      */

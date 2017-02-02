@@ -1,4 +1,46 @@
 {% extends '::base.html.twig' %}
 {% block body %}
-    Home
+    <h1 class="ui horizontal header divider">
+        Our Top Menus
+    </h1>
+    <div class="ui three column grid">
+    {% for menu in menus %}
+        <div class="column">
+            <div class="ui fluid card">
+                <div class="image">
+                    <a class="ui red ribbon label">{{ menu.price }} €</a>
+                    <img src="https://thumb7.shutterstock.com/display_pic_with_logo/288100/138421859/stock-photo-succulent-thick-juicy-portions-of-grilled-fillet-steak-served-with-tomatoes-and-roast-vegetables-on-138421859.jpg">
+                </div>
+                <div class="content text-center">
+                    <a class="header">{{ menu.title }}</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+    <div class="ui basic segment text-center">
+        <a class="ui button green" href="{{ path('menu_index') }}">View more</a>
+    </div>
+    <h1 class="ui horizontal header divider">
+        Some Of Our Dishes
+    </h1>
+    <div class="ui three column grid">
+        {% for dish in dishes %}
+            <div class="column">
+                <div class="ui fluid card">
+                    <div class="image">
+                        <a class="ui red ribbon label">{{ dish.price }} €</a>
+                        <img src="https://thumb7.shutterstock.com/display_pic_with_logo/288100/138421859/stock-photo-succulent-thick-juicy-portions-of-grilled-fillet-steak-served-with-tomatoes-and-roast-vegetables-on-138421859.jpg">
+                    </div>
+                    <div class="content text-center">
+                        <a class="header">{{ dish.title }}</a>
+                        <p>{{ dish.description }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="ui basic segment text-center">
+        <a class="ui button green" href="{{ path('dish_index') }}">View all our Dishes</a>
+    </div>
 {% endblock %}

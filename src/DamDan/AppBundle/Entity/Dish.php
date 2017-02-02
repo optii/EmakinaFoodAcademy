@@ -16,18 +16,18 @@ class Dish
     /**
      * Status constants
      */
-    const STATUS_DRAFT         = "STATUS_DRAFT";
-    const STATUS_REFUSED       = "STATUS_REFUSED";
-    const STATUS_ACCEPTED      = "STATUS_ACCEPTED";
+    const STATUS_DRAFT = "STATUS_DRAFT";
+    const STATUS_REFUSED = "STATUS_REFUSED";
+    const STATUS_ACCEPTED = "STATUS_ACCEPTED";
     const STATUS_IN_VALIDATION = "STATUS_IN_VALIDATION";
 
     /**
      * Categories constants
      */
-    const CATEGORY_ENTRY       = "CATEGORY_ENTRY";
+    const CATEGORY_STARTER = "CATEGORY_STARTER";
     const CATEGORY_MAIN_COURSE = "CATEGORY_MAIN_COURSE";
-    const CATEGORY_CHEESE      = "CATEGORY_CHEESE";
-    const CATEGORY_DESSERT     = "CATEGORY_DESSERT";
+    const CATEGORY_CHEESE = "CATEGORY_CHEESE";
+    const CATEGORY_DESSERT = "CATEGORY_DESSERT";
 
     /**
      * @var int
@@ -222,6 +222,16 @@ class Dish
     }
 
     /**
+     * Get Status Name
+     *
+     * @return string
+     */
+    public function getStatusName()
+    {
+        return array_flip(self::getStatusArray())[$this->getStatus()];
+    }
+
+    /**
      * Get status
      * @return array
      */
@@ -264,9 +274,10 @@ class Dish
      *
      * @return ArrayCollection
      */
-     public function getAllergens(){
+    public function getAllergens()
+    {
         return $this->allergens;
-     }
+    }
 
     /**
      * @return mixed
@@ -334,22 +345,57 @@ class Dish
     }
 
     /**
+     * Get Category Name
+     *
+     * @return string
+     */
+    public function getCategoryName()
+    {
+        return array_flip(self::getCategoriesArray())[$this->getCategory()];
+    }
+
+    /**
+     * Get the color for the category
+     *
+     * @return string
+     */
+    public function getCategoryColor()
+    {
+        return self::getCategoriesColors()[$this->getCategory()];
+    }
+
+    /**
+     * Get colors associated to categories
+     * @return array
+     */
+    public static function getCategoriesColors()
+    {
+        return [
+            self::CATEGORY_STARTER     => 'green',
+            self::CATEGORY_MAIN_COURSE => 'blue',
+            self::CATEGORY_CHEESE      => 'yellow',
+            self::CATEGORY_DESSERT     => 'brown'
+        ];
+    }
+
+    /**
      * Get categories
      * @return array
      */
     public static function getCategoriesArray()
     {
         return [
-            "Entry"       => self::CATEGORY_ENTRY,
+            "Starter"     => self::CATEGORY_STARTER,
             "Main course" => self::CATEGORY_MAIN_COURSE,
             "Cheese"      => self::CATEGORY_CHEESE,
             "Dessert"     => self::CATEGORY_DESSERT
         ];
     }
 
+
     public function __toString()
     {
-        return $this->getTitle().' '.$this->getCategory();
+        return $this->getTitle() . ' (' . $this->getCategoryName() . ')';
     }
 }
 

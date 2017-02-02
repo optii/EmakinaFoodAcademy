@@ -1,3 +1,15 @@
+.container.main{
+    padding: 10px;
+}
+
+.cover{
+    background-image: url('https://static.pexels.com/photos/197973/pexels-photo-197973.jpeg');
+    height: 300px;
+    background-size: cover;
+    background-position: 50%;
+    text-align: center;
+    color: white;
+}
  /*
  * # Semantic UI - 2.2.6
  * https://github.com/Semantic-Org/Semantic-UI

@@ -28,10 +28,10 @@
         </tr>
         </tbody>
     </table>
-    <a class="ui inverted button orange" href="{{ path('admin_menu_edit', { 'id': menu.id }) }}">Edit</a>
 
+    <a class="ui left floated inverted button orange" href="{{ path('admin_menu_edit', { 'id': menu.id }) }}">Edit</a>
     {{ form_start(delete_form) }}
-    <input class="ui inverted button red" type="submit" value="Delete">
+        <input class="ui left floated inverted button red" type="submit" value="Delete">
     {{ form_end(delete_form) }}
 
 {% endblock %}

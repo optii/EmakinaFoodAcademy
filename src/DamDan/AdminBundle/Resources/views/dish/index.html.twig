@@ -10,8 +10,10 @@
             <th>Id</th>
             <th>Title</th>
             <th>Description</th>
+            <th>Author</th>
             <th>Price</th>
             <th>Status</th>
+            <th>Category</th>
             <th>Homemade</th>
             <th>Actions</th>
         </tr>
@@ -22,8 +24,10 @@
                 <td><a href="{{ path('admin_dish_show', { 'id': dish.id }) }}">{{ dish.id }}</a></td>
                 <td>{{ dish.title }}</td>
                 <td>{{ dish.description }}</td>
+                <td>{{ dish.author }}</td>
                 <td>{{ dish.price }}</td>
-                <td>{{ dish.status }}</td>
+                <td>{{ dish.statusName }}</td>
+                <td>{{ dish.categoryName }}</td>
                 <td>{% if dish.homeMade %}Yes{% else %}No{% endif %}</td>
                 <td>
                     <a class="ui inverted button small blue" href="{{ path('admin_dish_show', { 'id': dish.id }) }}">show</a>

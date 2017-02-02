@@ -10,7 +10,8 @@
                 <th>Id</th>
                 <th>Title</th>
                 <th>Price</th>
-                <th>Appearanceorder</th>
+                <th>Author</th>
+                <th>Order</th>
                 <th>Status</th>
                 <th>Actions</th>
             </tr>
@@ -21,14 +22,12 @@
                 <td><a href="{{ path('admin_menu_show', { 'id': menu.id }) }}">{{ menu.id }}</a></td>
                 <td>{{ menu.title }}</td>
                 <td>{{ menu.price }}</td>
+                <td>{{ menu.author }}</td>
                 <td>{{ menu.appearanceOrder }}</td>
-                <td>{{ menu.status }}</td>
+                <td>{{ menu.statusName }}</td>
                 <td>
-
-                            <a class="ui button inverted small blue" href="{{ path('admin_menu_show', { 'id': menu.id }) }}">show</a>
-
-                            <a class="ui button inverted small orange" href="{{ path('admin_menu_edit', { 'id': menu.id }) }}">edit</a>
-
+                    <a class="ui button inverted small blue" href="{{ path('admin_menu_show', { 'id': menu.id }) }}">show</a>
+                    <a class="ui button inverted small orange" href="{{ path('admin_menu_edit', { 'id': menu.id }) }}">edit</a>
                 </td>
             </tr>
         {% endfor %}

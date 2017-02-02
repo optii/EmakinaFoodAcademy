@@ -11,13 +11,13 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.jpg') }}"/>
 </head>
 <body>
-
+{% set route = app.request.attributes.get('_route') %}
 <div class="ui fixed inverted menu">
     <div class="ui container">
-        <a href="#" class="header item">
-            Emakina Food Academy &trade;
-        </a>
-        <a href="" class="item">Home</a>
+        <a href="{{ path('home') }}" class="item">Home</a>
+        <a href="{{ path('menu_index') }}" class="item">Our Menus</a>
+        <a href="{{ path('dish_index') }}" class="item">Our Dishes</a>
+        <a href="{{ path('reservation_index') }}" class="item">Book</a>
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <div class="right menu">
                 <div class="ui simple dropdown item">
@@ -32,7 +32,17 @@
 
     </div>
 </div>
-<div style="margin-top:50px;min-height: 500px;margin-bottom:50px;" class="ui container">
+<div class="cover aligned midle">
+    <div class="ui inner column twelve wide text container">
+        <div class="ui grid stackable middle aligned">
+            <div class="ui column sixteen wide">
+                <img width="700px" src="{{ asset('img/logo.png') }}" alt="logo" />
+            </div>
+
+        </div>
+    </div>
+</div>
+<div style="margin-top:50px;min-height: 300px;margin-bottom:50px;" class="ui container">
     {% for label, flashes in app.session.flashbag.all %}
         {% for flash in flashes %}
             <div class="ui {{ label }} message">
@@ -43,7 +53,10 @@
             </div>
         {% endfor %}
     {% endfor %}
+
+    <div class="ui container main">
     {% block body %}{% endblock %}
+    </div>
 </div>
 <div class="ui inverted vertical footer segment">
     <div class="ui center aligned container">
@@ -76,8 +89,7 @@
                 </div>
             </div>
             <div class="seven wide column">
-                <h4 class="ui inverted header">Footer Header</h4>
-                <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
+                <img width="300px" src="{{ asset('img/logo.png') }}" alt="logo" />
             </div>
         </div>
         <div class="ui inverted section divider"></div>
