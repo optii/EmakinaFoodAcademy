@@ -1,0 +1,12 @@
+Hi,
+
+The following menus don't have any dishes associated to them:
+
+{% for menu in menus %}
+    * {{ menu.id }} - {{ menu.title }} - <a href="{{ path('admin_menu_show', {id: menu.id}) }}">view</a>
+{% endfor %}
+
+Thanks,
+
+
+Emakina Food Acamdemy,

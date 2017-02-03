@@ -10,4 +10,12 @@ namespace DamDan\AppBundle\Repository;
  */
 class MenuRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAllWithoutDishes(){
+        return $this->createQueryBuilder('m')
+            ->select('m')
+            ->leftJoin('m.dishes', 'd')
+            ->having('count(d.id) = 0')
+            ->groupBy('m.id')
+           ->getQuery()->getResult();
+    }
 }
