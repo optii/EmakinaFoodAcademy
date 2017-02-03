@@ -31,6 +31,13 @@ class Reservation
     /**
      * @var int
      *
+     * @ORM\Column(name="lunchOrDinner", type="integer")
+     */
+    private $lunchOrDinner;
+
+    /**
+     * @var int
+     *
      * @ORM\Column(name="seats", type="integer")
      */
     private $seats;
@@ -83,6 +90,22 @@ class Reservation
     {
         $this->date = $date;
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLunchOrDinner()
+    {
+        return $this->lunchOrDinner;
+    }
+
+    /**
+     * @param int $lunchOrDinner
+     */
+    public function setLunchOrDinner($lunchOrDinner)
+    {
+        $this->lunchOrDinner = $lunchOrDinner;
     }
 
     /**

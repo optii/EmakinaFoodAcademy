@@ -3,6 +3,9 @@
 namespace DamDan\AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,7 +16,23 @@ class ReservationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('date')->add('seats')->add('email')->add('name')->add('phone')        ;
+        $builder
+            ->add('date', DateType::class, array(
+                'format' => 'dd/MM/yyyy',
+                'widget' => 'single_text'
+            ))
+            ->add('lunchOrDinner', ChoiceType::class, array(
+                'expanded' => true,
+                'multiple' => false,
+                'choices' => array(
+                    'Lunch' => 1,
+                    'Dinner' => 2
+                )
+            ))
+            ->add('seats')
+            ->add('email')
+            ->add('name')
+            ->add('phone');
     }
     
     /**

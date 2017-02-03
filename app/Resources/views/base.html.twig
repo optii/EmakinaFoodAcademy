@@ -18,7 +18,7 @@
         <a href="{{ path('home') }}" class="item">Home</a>
         <a href="{{ path('menu_index') }}" class="item">Our Menus</a>
         <a href="{{ path('dish_index') }}" class="item">Our Dishes</a>
-        <a href="{{ path('reservation_index') }}" class="item">Book</a>
+        <a href="{{ path('reservation_new') }}" class="item">Book</a>
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <div class="right menu">
                 <div class="ui simple dropdown item">
@@ -115,7 +115,27 @@
         $('.ui.dropdown')
                 .dropdown()
         ;
-        $('.ui.calendar').calendar();
+        $('.ui.calendar').calendar({
+            monthFirst: false,
+            formatter: {
+                date: function (date, settings) {
+                    if (!date) return '';
+                    var day = date.getDate();
+                    var month = date.getUTCMonth() + 1;
+                    month = month < 10 ? '0'+month : month;
+                    day = day < 10 ? '0'+day : day;
+                    var year = date.getFullYear();
+                    return day + '/' + month + '/' + year;
+                },
+                time: function (date, settings, forCalendar) {
+                    if (!date) return '';
+                    var hour = date.getHours();
+                    var minutes = date.getMinutes();
+                    return hour+':'+minutes;
+                }
+            }
+        }
+        );
     </script>
 {% endblock %}
 </body>
