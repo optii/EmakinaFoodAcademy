@@ -3,20 +3,34 @@
     <h1 class="ui horizontal header divider">
         Our Top Menus
     </h1>
-    <div class="ui three column grid">
-    {% for menu in menus %}
-        <div class="column">
-            <div class="ui fluid card">
-                <div class="image">
-                    <a class="ui red ribbon label">{{ menu.price }} €</a>
-                    <img src="https://thumb7.shutterstock.com/display_pic_with_logo/288100/138421859/stock-photo-succulent-thick-juicy-portions-of-grilled-fillet-steak-served-with-tomatoes-and-roast-vegetables-on-138421859.jpg">
-                </div>
-                <div class="content text-center">
-                    <a class="header">{{ menu.title }}</a>
+    <div class="ui three column grid menus">
+        {% for menu in menus %}
+            <div class="column">
+
+                <div class="ui fluid card ">
+                    <div class="content">
+                        <a class="ui red ribbon label">{{ menu.price }} €</a>
+                        <a class="header  text-center">{{ menu.title }}</a>
+                    </div>
+                    <div class="blurring dimmable image">
+                        <div class="ui dimmer">
+                            <div class="content">
+                                <div class="center">
+                                    <a href="{{ path('menu_show', {id: menu.id}) }}" class="ui red inverted button">View</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slider">
+                            {% for dish in menu.dishes %}
+                                <div>
+                                    <img src="{{ asset(dish.image) }}">
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
     </div>
     <div class="ui basic segment text-center">
         <a class="ui button green" href="{{ path('menu_index') }}">View more</a>
@@ -28,13 +42,20 @@
         {% for dish in dishes %}
             <div class="column">
                 <div class="ui fluid card">
-                    <div class="image">
+                    <div class="content">
                         <a class="ui red ribbon label">{{ dish.price }} €</a>
-                        <img src="https://thumb7.shutterstock.com/display_pic_with_logo/288100/138421859/stock-photo-succulent-thick-juicy-portions-of-grilled-fillet-steak-served-with-tomatoes-and-roast-vegetables-on-138421859.jpg">
-                    </div>
-                    <div class="content text-center">
-                        <a class="header">{{ dish.title }}</a>
+                        <a class="text-center header">{{ dish.title }}</a>
                         <p>{{ dish.description }}</p>
+                    </div>
+                    <div class="blurring dimmable image">
+                        <div class="ui dimmer">
+                            <div class="content">
+                                <div class="center">
+                                    <a href="{{ path('dish_show', {id: dish.id}) }}" class="ui red inverted button">View</a>
+                                </div>
+                            </div>
+                        </div>
+                        <img src="{{ asset(dish.image) }}">
                     </div>
                 </div>
             </div>
@@ -43,4 +64,20 @@
     <div class="ui basic segment text-center">
         <a class="ui button green" href="{{ path('dish_index') }}">View all our Dishes</a>
     </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('.slider').slick({
+                autoplay: true,
+                nextArrow: false,
+                prevArrow: false,
+            });
+
+            $('.menus .image').dimmer({
+                on: 'hover'
+            });
+        });
+    </script>
 {% endblock %}

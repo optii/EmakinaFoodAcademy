@@ -7,6 +7,7 @@
         {% stylesheets 'assets/css/*' filter='cssrewrite' output='css/main.css' %}
         <link rel="stylesheet" href="{{ asset_url }}"/>
         {% endstylesheets %}
+
     {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.jpg') }}"/>
 </head>
@@ -114,6 +115,7 @@
         $('.ui.dropdown')
                 .dropdown()
         ;
+        $('.ui.calendar').calendar();
     </script>
 {% endblock %}
 </body>
