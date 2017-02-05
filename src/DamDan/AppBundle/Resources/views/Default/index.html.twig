@@ -1,1 +1,45 @@
-Hello World!
+{% extends '::base.html.twig' %}
+{% block body %}
+    <h1 class="ui horizontal header divider">
+        Our Top Menus
+    </h1>
+    <div class="ui three column grid menus">
+        {% for menu in menus %}
+            <div class="column">
+              {{ include('DamDanAppBundle:menu:list_item.html.twig', {menu: menu}) }}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="ui basic segment text-center">
+        <a class="ui button green" href="{{ path('menu_index') }}">View more</a>
+    </div>
+    <h1 class="ui horizontal header divider">
+        Some Of Our Dishes
+    </h1>
+    <div class="ui three column grid">
+        {% for dish in dishes %}
+            <div class="column">
+              {{ include('DamDanAppBundle:dish:list_item.html.twig', {dish: dish}) }}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="ui basic segment text-center">
+        <a class="ui button green" href="{{ path('dish_index') }}">View all our Dishes</a>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('.slider').slick({
+                autoplay: true,
+                nextArrow: false,
+                prevArrow: false,
+            });
+
+            $('.menus .image').dimmer({
+                on: 'hover'
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,29 @@
+.container.main{
+    padding: 10px;
+}
+
+.body {
+    min-height: 300px;
+    margin-top:50px;
+    margin-bottom:50px;
+}
+
+.cover{
+    text-align: center;
+    color: white;
+    display: flex;
+    justify-content: center;
+    height: 320px;
+    background-image: url('../../img/cover.jpg');
+    background-position:  0% 100%;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.inner {
+    align-self: center;
+}
+
+.text-center{
+    text-align: center;
+}

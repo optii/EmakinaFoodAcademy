@@ -1,0 +1,20 @@
+<div class="ui fluid card">
+    <div class="content">
+        <a class="ui red ribbon label">{{ dish.price }} €</a>
+        <a href="{{ path('dish_show', {id: dish.id}) }}" class="text-center header">{{ dish.title }}</a>
+        <p>{{ dish.description }}</p>
+    </div>
+    <div class="blurring dimmable image">
+        <div class="ui dimmer">
+            <div class="content">
+                <div class="center">
+                    <a href="{{ path('dish_show', {id: dish.id}) }}" class="ui red inverted button">View</a>
+                </div>
+            </div>
+        </div>
+        <img src="{{ asset(dish.image) }}">
+    </div>
+    <div class="extra content">
+        <span class="ui label {{ dish.categoryColor }}" >{{ dish.categoryName }}</span>
+    </div>
+</div>

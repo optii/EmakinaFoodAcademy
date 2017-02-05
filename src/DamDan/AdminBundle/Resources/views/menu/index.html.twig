@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ breadcrumb({ 'home': 'home', 'admin_index': 'admin', 'admin_menu_index': 'menus'}) }}
+    <h1>Menus list</h1>
+
+    <table class="ui table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Author</th>
+                <th>Order</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for menu in menus %}
+            <tr>
+                <td><a href="{{ path('admin_menu_show', { 'id': menu.id }) }}">{{ menu.id }}</a></td>
+                <td>{{ menu.title }}</td>
+                <td>{{ menu.price }}</td>
+                <td>{{ menu.author }}</td>
+                <td>{{ menu.order }}</td>
+                <td>{{ menu.statusName }}</td>
+                <td>
+                    <a class="ui button inverted small blue" href="{{ path('admin_menu_show', { 'id': menu.id }) }}">show</a>
+                    <a class="ui button inverted small orange" href="{{ path('admin_menu_edit', { 'id': menu.id }) }}">edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a class="ui button green inverted" href="{{ path('admin_menu_new') }}"><i class="ui icon plus"></i> Create a menu</a>
+{% endblock %}

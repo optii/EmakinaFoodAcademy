@@ -24,5 +24,11 @@ class DamDanAppExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+        if (!$config['administrator_email']) {
+            throw new \InvalidArgumentException('The "administrator_email" option must be set');
+        }
+
+        $container->setParameter('dandam_app.administrator.email', $config['administrator_email']);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace DamDan\UserBundle\Controller;
+namespace DamDan\AdminBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -8,10 +8,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/", name="admin_index")
      */
     public function indexAction()
     {
-        return $this->render('DamDanUserBundle:Default:index.html.twig');
+        return $this->render('DamDanAdminBundle:Default:index.html.twig');
     }
 }

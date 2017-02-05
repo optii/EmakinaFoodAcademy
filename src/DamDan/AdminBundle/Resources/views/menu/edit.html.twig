@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ breadcrumb({ 'home': 'home', 'admin_index': 'admin', 'admin_menu_index': 'menu', 'admin_menu_edit': ['edit', {'id': menu.id}]}) }}
+    <h1>Menu edit</h1>
+
+    {{ form_start(edit_form) }}
+    {{ form_widget(edit_form) }}
+        <input class="ui left floated inverted button orange" type="submit" value="Edit"/>
+    {{ form_end(edit_form) }}
+
+    {{ form_start(delete_form) }}
+        <input class="ui left floated inverted button red" type="submit" value="Delete">
+    {{ form_end(delete_form) }}
+{% endblock %}

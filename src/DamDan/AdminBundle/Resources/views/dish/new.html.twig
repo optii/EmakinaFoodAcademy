@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ breadcrumb({'home': 'home', 'admin_index': 'admin', 'admin_dish_index': 'dish', 'admin_dish_new': 'new'}) }}
+
+    <h1>Dish creation</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input class="ui inverted green button" type="submit" value="Create" />
+    {{ form_end(form) }}
+
+{% endblock %}

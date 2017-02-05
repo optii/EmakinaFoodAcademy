@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ breadcrumb({ 'home': 'home', 'admin_index': 'Admin', 'admin_menu_index': 'menu', 'admin_menu_show': [menu.title, {id: menu.id}]}) }}
+    <h1>Menu</h1>
+
+    <table class="ui definition table">
+        <tbody>
+        <tr>
+            <td>Id</td>
+            <td>{{ menu.id }}</td>
+        </tr>
+        <tr>
+            <td>Title</td>
+            <td>{{ menu.title }}</td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td>{{ menu.price }}</td>
+        </tr>
+        <tr>
+            <td>Order</td>
+            <td>{{ menu.order }}</td>
+        </tr>
+        <tr>
+            <td>Status</td>
+            <td>{{ menu.status }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a class="ui left floated inverted button orange" href="{{ path('admin_menu_edit', { 'id': menu.id }) }}">Edit</a>
+    {{ form_start(delete_form) }}
+        <input class="ui left floated inverted button red" type="submit" value="Delete">
+    {{ form_end(delete_form) }}
+
+{% endblock %}

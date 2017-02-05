@@ -1,4 +1,14 @@
 services:
-#    dam_dan_app.example:
-#        class: DamDan\AppBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    damdan.breadcrumb_extension:
+        class: DamDan\AppBundle\Twig\BreadcrumbExtension
+        public: false
+        arguments: ['@router']
+        tags:
+            - { name: twig.extension }
+
+    damdan.notify.listener:
+            class: DamDan\AppBundle\EventListener\NotifySubscriber
+            arguments: ['@templating', '@mailer', '%dandam_app.administrator.email%']
+
+            tags:
+                - { name: doctrine.event_subscriber, connection: default }

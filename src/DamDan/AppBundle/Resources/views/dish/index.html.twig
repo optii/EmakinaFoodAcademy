@@ -1,0 +1,9 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+    <h1 class="ui horizontal header divider">Our dishes</h1>
+    <div class="ui three cards">
+        {% for dish in dishes %}
+           {{ include('DamDanAppBundle:dish:list_item.html.twig', {dish: dish}) }}
+        {% endfor %}
+    </div>
+{% endblock %}

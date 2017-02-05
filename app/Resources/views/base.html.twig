@@ -1,13 +1,134 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}EmakinaFoodAcademy{% endblock %}</title>
+    {% block stylesheets %}
+        {% stylesheets 'assets/css/*' filter='cssrewrite' output='css/main.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.jpg') }}"/>
+</head>
+<body>
+{% set route = app.request.attributes.get('_route') %}
+<div class="ui fixed inverted menu">
+    <div class="ui container">
+        <a href="{{ path('home') }}" class="item">Home</a>
+        <a href="{{ path('menu_index') }}" class="item">Our Menus</a>
+        <a href="{{ path('dish_index') }}" class="item">Our Dishes</a>
+        <a href="{{ path('reservation_new') }}" class="item">Book</a>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <div class="right menu">
+                <div class="ui simple dropdown item">
+                    Admin <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a class="item" href="{{ path('admin_index') }}">Home</a>
+                    </div>
+                </div>
+                <a class="item" href="{{ path('dam_dan_user_logout') }}">Logout</a>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+<div class="cover aligned midle">
+    <div class="ui inner column twelve wide text container">
+        <div class="ui grid stackable middle aligned">
+            <div class="ui column sixteen wide">
+                <img width="700px" src="{{ asset('img/logo.png') }}" alt="logo"/>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="ui container body">
+    {% for label, flashes in app.session.flashbag.all %}
+        {% for flash in flashes %}
+            <div class="ui {{ label }} message">
+                <i class="close icon"></i>
+                <div class="header">
+                    {{ flash }}
+                </div>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="ui container main">
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+    </div>
+</div>
+<div class="ui inverted vertical footer segment">
+    <div class="ui center aligned container">
+        <div class="ui stackable inverted divided grid">
+            <div class="three wide column">
+                <h4 class="ui inverted header">Group 1</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">Link One</a>
+                    <a href="#" class="item">Link Two</a>
+                    <a href="#" class="item">Link Three</a>
+                    <a href="#" class="item">Link Four</a>
+                </div>
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header">Group 2</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">Link One</a>
+                    <a href="#" class="item">Link Two</a>
+                    <a href="#" class="item">Link Three</a>
+                    <a href="#" class="item">Link Four</a>
+                </div>
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header">Group 3</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item">Link One</a>
+                    <a href="#" class="item">Link Two</a>
+                    <a href="#" class="item">Link Three</a>
+                    <a href="#" class="item">Link Four</a>
+                </div>
+            </div>
+            <div class="seven wide column">
+                <img width="300px" src="{{ asset('img/logo.png') }}" alt="logo"/>
+            </div>
+        </div>
+        <div class="ui inverted section divider"></div>
+        <div class="ui horizontal inverted small divided link list">
+            <a class="item" href="#">Site Map</a>
+            <a class="item" href="#">Contact Us</a>
+            <a class="item" href="#">Terms and Conditions</a>
+            <a class="item" href="#">Privacy Policy</a>
+        </div>
+    </div>
+</div>
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" type="text/javascript"></script>
+    {% javascripts 'assets/js/*' output='js/main.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        $('.message .close').on('click', function () {
+            $(this).closest('.message').transition('fade');
+        });
+        $('.ui.checkbox').checkbox();
+        $('.ui.dropdown')
+                .dropdown()
+        ;
+        $('.ui.calendar').calendar({
+            monthFirst: false,
+            formatter: {
+                datetime: function(date, settings){
+                    if(!date) return '';
+                    console.log(date.toISOString());
+                    return date.toISOString();
+                }
+            }
+        });
+        $('.ui.dropdown').dropdown();
+        $('.ui.calendar').calendar();
+    </script>
+{% endblock %}
+</body>
 </html>
+
