@@ -1,30 +1,9 @@
 {% extends '::base.html.twig' %}
 {% block body %}
     <h1 class="ui horizontal header divider">Our dishes</h1>
-    <div class="ui cards">
+    <div class="ui three cards">
         {% for dish in dishes %}
-            <div class="card">
-                <div class="content ">
-                    <a class="ui red ribbon label">{{ dish.price }} €</a>
-                    <div class="header text-center">{{ dish.title }}</div>
-                    <div class="description text-center">
-                        {{ dish.description }}
-                    </div>
-                </div>
-                <div class="image">
-                    <img src="{{ dish.image }}">
-                </div>
-                <div class="extra content">
-                    <span class="right floated">
-                        <a href="{{ path('dish_show', {id: dish.id}) }}">More</a>
-                    </span>
-                    <span>
-                        <div class="ui label {{ dish.categoryColor }}">
-                            {{ dish.categoryName }}
-                        </div>
-                    </span>
-                </div>
-            </div>
+           {{ include('DamDanAppBundle:dish:list_item.html.twig', {dish: dish}) }}
         {% endfor %}
     </div>
 {% endblock %}

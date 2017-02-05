@@ -13,7 +13,10 @@ class MenuController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('DamDanAppBundle:menu:index.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $menus = $em->getRepository('DamDanAppBundle:Menu')->findByStatus(Menu::STATUS_ACCEPTED, array('order' => 'ASC'));
+
+        return $this->render('DamDanAppBundle:menu:index.html.twig', array('menus' => $menus));
     }
 
     /**

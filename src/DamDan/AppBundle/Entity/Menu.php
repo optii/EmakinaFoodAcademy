@@ -47,9 +47,9 @@ class Menu
     /**
      * @var int
      *
-     * @ORM\Column(name="appearanceOrder", type="integer")
+     * @ORM\Column(name="order", type="integer")
      */
-    private $appearanceOrder;
+    private $order;
 
     /**
      * @var string
@@ -152,27 +152,27 @@ class Menu
     }
 
     /**
-     * Set appearanceOrder
+     * Set Order
      *
-     * @param integer $appearanceOrder
+     * @param integer $order
      *
      * @return Menu
      */
-    public function setAppearanceOrder($appearanceOrder)
+    public function setOrder($order)
     {
-        $this->appearanceOrder = $appearanceOrder;
+        $this->order = $order;
 
         return $this;
     }
 
     /**
-     * Get appearanceOrder
+     * Get Order
      *
      * @return int
      */
-    public function getAppearanceOrder()
+    public function getOrder()
     {
-        return $this->appearanceOrder;
+        return $this->order;
     }
 
     /**

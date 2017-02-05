@@ -15,7 +15,7 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $menus = $em->getRepository('DamDanAppBundle:Menu')->findByStatus(Menu::STATUS_ACCEPTED, array('appearanceOrder' => 'ASC'), 3);
+        $menus = $em->getRepository('DamDanAppBundle:Menu')->findByStatus(Menu::STATUS_ACCEPTED, array('order' => 'ASC'), 3);
         $dishes = $em->getRepository('DamDanAppBundle:Dish')->findByStatus(Dish::STATUS_ACCEPTED);
         // Shuffle the dishes so as to not always show the same ones
         shuffle($dishes);

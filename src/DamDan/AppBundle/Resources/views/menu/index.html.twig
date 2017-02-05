@@ -1,4 +1,24 @@
 {% extends '::base.html.twig' %}
 {% block body %}
-    Home
+    <h1 class="ui horizontal header divider">Our menus</h1>
+    <div class="ui three cards">
+        {% for menu in menus %}
+            {{ include('DamDanAppBundle:menu:list_item.html.twig', {menu: menu}) }}
+        {% endfor %}
+    </div>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.slider').slick({
+            autoplay: true,
+            nextArrow: false,
+            prevArrow: false,
+        });
+
+        $('.menus .image').dimmer({
+            on: 'hover'
+        });
+    });
+</script>
 {% endblock %}

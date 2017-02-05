@@ -19,7 +19,7 @@ class MenuType extends AbstractType
     {
         $builder->add('title')
         ->add('price')
-        ->add('appearanceOrder')
+        ->add('order')
         ->add('status', ChoiceType::class, array('choices' => Dish::getStatusArray()))
         ->add('dishes', EntityType::class, array(
             'class' => 'DamDanAppBundle:Dish',
