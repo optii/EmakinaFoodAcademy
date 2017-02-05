@@ -4,14 +4,15 @@
     <div class="ui cards">
         {% for dish in dishes %}
             <div class="card">
-                <div class="image">
-                    <img src="{{ dish.image }}">
-                </div>
-                <div class="content text-center">
-                    <div class="header">{{ dish.title }}</div>
-                    <div class="description">
+                <div class="content ">
+                    <a class="ui red ribbon label">{{ dish.price }} €</a>
+                    <div class="header text-center">{{ dish.title }}</div>
+                    <div class="description text-center">
                         {{ dish.description }}
                     </div>
+                </div>
+                <div class="image">
+                    <img src="{{ dish.image }}">
                 </div>
                 <div class="extra content">
                     <span class="right floated">
@@ -26,7 +27,4 @@
             </div>
         {% endfor %}
     </div>
-
-
-
 {% endblock %}

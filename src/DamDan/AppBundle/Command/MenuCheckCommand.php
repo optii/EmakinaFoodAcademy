@@ -30,11 +30,10 @@ class MenuCheckCommand extends ContainerAwareCommand
             $output->writeln(sprintf('[INFO] %s menus found with no dishes...', count($menus)));
             $message = \Swift_Message::newInstance()
                 ->setSubject(sprintf('%s EMPTY MENUS - {emakina food academy}', count($menus)))
-                ->setFrom('readingfc06@gmail.com')
-                ->setTo('daniel@dancole.fr')
+                ->setFrom($this->getContainer()->getParameter('dandam_app.administrator.email'))
+                ->setTo($this->getContainer()->getParameter('dandam_app.administrator.email'))
                 ->setBody(
                     $this->getContainer()->get('templating')->render(
-                    // app/Resources/views/Emails/registration.html.twig
                         'DamDanAppBundle:Emails:menu_check.html.twig',
                         array('menus' => $menus)
                     ),

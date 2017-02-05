@@ -10,4 +10,18 @@ namespace DamDan\UserBundle\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function findByRole($role){
+        $users = $this->findAll();
+        $usersWithRole = [];
+
+        foreach($users as $user){
+            if(in_array($role, $user->getRoles())){
+                $usersWithRole[] = $user;
+            }
+        }
+
+        return $usersWithRole;
+    }
+
 }

@@ -5,3 +5,10 @@ services:
         arguments: ['@router']
         tags:
             - { name: twig.extension }
+
+    damdan.notify.listener:
+            class: DamDan\AppBundle\EventListener\NotifySubscriber
+            arguments: ['@templating', '@mailer', '%dandam_app.administrator.email%']
+
+            tags:
+                - { name: doctrine.event_subscriber, connection: default }

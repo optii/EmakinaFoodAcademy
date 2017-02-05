@@ -273,6 +273,22 @@ class User implements UserInterface
     }
 
     /**
+     * Has role
+     *
+     * @param $role
+     * @return bool
+     */
+    public function hasRole($role){
+        foreach($this->getRoles() as $r){
+            if($role == $r){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Get Role Names
      *
      * @return array

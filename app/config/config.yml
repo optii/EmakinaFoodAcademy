@@ -73,3 +73,6 @@ assetic:
     use_controller: '%kernel.debug%'
     filters:
         cssrewrite: ~
+
+dam_dan_app:
+    administrator_email: daniel@dancole.fr
