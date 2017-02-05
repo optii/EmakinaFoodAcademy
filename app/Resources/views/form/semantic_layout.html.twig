@@ -30,7 +30,9 @@
 {%- endblock percent_widget %}
 
 {% block datetime_widget -%}
-    {% set value = value.date.day ~ '/' ~ value.date.month ~ '/' ~ value.date.year ~ ' ' ~ value.time.hour ~ ':' ~ value.time.minute %}
+    {% if value.date is defined  %}
+        {% set value = value.date.day ~ '/' ~ value.date.month ~ '/' ~ value.date.year ~ ' ' ~ value.time.hour ~ ':' ~ value.time.minute %}
+    {% endif %}
     <div class="ui calendar">
         <div class="ui input left icon">
             <i class="calendar icon"></i>
@@ -40,7 +42,9 @@
 {%- endblock datetime_widget %}
 
 {% block date_widget -%}
-    {% set value = value.date.day ~ '/' ~ value.date.month ~ '/' ~ value.date.year %}
+    {% if value.date is defined  %}
+        {% set value = value.date.day ~ '/' ~ value.date.month ~ '/' ~ value.date.year %}
+    {% endif %}
     <div class="ui calendar">
         <div class="ui input left icon">
             <i class="calendar icon"></i>

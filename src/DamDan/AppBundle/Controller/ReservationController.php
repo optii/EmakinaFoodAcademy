@@ -47,8 +47,7 @@ class ReservationController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($reservation);
             $em->flush($reservation);
-
-            return $this->redirectToRoute('reservation_show', array('id' => $reservation->getId()));
+            return $this->render('DamDanAppBundle:reservation:validated.html.twig');
         }
 
         return $this->render('DamDanAppBundle:reservation:new.html.twig', array(
