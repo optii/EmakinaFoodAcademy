@@ -16,5 +16,10 @@
     </div>
     <div class="extra content">
         <span class="ui label {{ dish.categoryColor }}" >{{ dish.categoryName }}</span>
+        {% if dish.homeMade %}
+            <span class="ui label teal">
+                Home made
+            </span>
+        {% endif %}
     </div>
 </div>

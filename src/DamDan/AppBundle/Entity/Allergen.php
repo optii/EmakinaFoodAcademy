@@ -78,4 +78,3 @@ class Allergen
         return $this->dishes;
      }
 }
-

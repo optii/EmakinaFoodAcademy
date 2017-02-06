@@ -8,13 +8,11 @@
 
 namespace DamDan\AppBundle\EventListener;
 
-
 use DamDan\AppBundle\Entity\Dish;
 use DamDan\AppBundle\Entity\Menu;
 use DamDan\UserBundle\Entity\User;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Symfony\Bundle\TwigBundle\TwigEngine;
 
 class NotifySubscriber implements EventSubscriber
@@ -43,7 +41,7 @@ class NotifySubscriber implements EventSubscriber
         $object = $eventArgs->getObject();
 
         $servers = $eventArgs->getEntityManager()->getRepository('DamDanUserBundle:User')->findByRole(User::ROLE_SERVER);
-        $emails = array_map(function($server){
+        $emails = array_map(function(User $server){
             return $server->getEmail();
         }, $servers);
 
