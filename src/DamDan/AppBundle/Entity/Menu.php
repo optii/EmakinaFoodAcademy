@@ -47,7 +47,7 @@ class Menu
     /**
      * @var int
      *
-     * @ORM\Column(name="order", type="integer")
+     * @ORM\Column(name="appearance_order", type="integer")
      */
     private $order;
 
@@ -244,6 +244,11 @@ class Menu
      public function addDish(Dish $dish)
      {
         $this->dishes->add($dish);
+     }
+
+     public function __toString()
+     {
+         return $this->getTitle();
      }
 }
 

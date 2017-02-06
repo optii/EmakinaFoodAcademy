@@ -29,6 +29,11 @@ class DamDanAppExtension extends Extension
             throw new \InvalidArgumentException('The "administrator_email" option must be set');
         }
 
+        if(!$config['upload_dir']){
+            throw new \InvalidArgumentException('The "upload_dir" option must be set');
+        }
+
         $container->setParameter('dandam_app.administrator.email', $config['administrator_email']);
+        $container->setParameter('dandam_app.upload_dir', $config['upload_dir']);
     }
 }

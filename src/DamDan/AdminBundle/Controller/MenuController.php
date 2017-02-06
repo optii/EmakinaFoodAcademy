@@ -46,6 +46,7 @@ class MenuController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $menu->setAuthor($this->getUser());
             $em->persist($menu);
             $em->flush($menu);
 

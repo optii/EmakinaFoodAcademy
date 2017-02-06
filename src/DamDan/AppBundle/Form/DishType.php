@@ -5,6 +5,7 @@ namespace DamDan\AppBundle\Form;
 use DamDan\AppBundle\Entity\Dish;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,7 +19,7 @@ class DishType extends AbstractType
         $builder->add('title')
                 ->add('description')
                 ->add('price')
-                ->add('image')
+                ->add('file', FileType::class)
                 ->add('status', ChoiceType::class, array('choices' => Dish::getStatusArray()))
                 ->add('category', ChoiceType::class, array('choices' => Dish::getCategoriesArray()))
                 ->add('homeMade');

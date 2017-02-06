@@ -3,7 +3,7 @@
 {% block body %}
     {{ breadcrumb({ 'home': 'home', 'admin_index': 'admin', 'admin_dish_index': 'dish', 'admin_dish_show': [dish.title, {id: dish.id}], 'admin_dish_edit': ['edit', {id: dish.id}]}) }}
 
-    <h1>Dish edit</h1>
+    <h1 class="ui horizontal header divider">Dish edit</h1>
 
     {{ form_start(edit_form) }}
     {{ form_widget(edit_form) }}

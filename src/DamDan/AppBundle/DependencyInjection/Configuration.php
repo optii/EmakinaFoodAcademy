@@ -24,6 +24,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('administrator_email')->end()
+                ->scalarNode('upload_dir')->end()
             ->end()
             ->end()
         ;
