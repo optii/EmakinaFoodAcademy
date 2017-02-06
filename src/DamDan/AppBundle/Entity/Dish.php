@@ -424,4 +424,3 @@ class Dish
         return $this->getTitle() . ' (' . $this->getCategoryName() . ')';
     }
 }
-

@@ -269,4 +269,3 @@ class Menu
          return $this->getTitle();
      }
 }
-
