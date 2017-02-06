@@ -1,5 +1,23 @@
 {% extends '::base.html.twig' %}
 {% block body %}
-    <h1>{{ dish.title }}</h1>
-    <p>{{ dish.description }}</p>
+    <h1 class="ui horizontal header divider">{{ dish.title }}  <span class="ui red tag label">{{ dish.price }}€</span></h1>
+    <div class="dish-header"  style="background-image: url({{ asset('img/uploads/' ~ dish.image) }})"></div>
+    <p class="text-center">
+        <span class="ui label {{ dish.categoryColor }}" >{{ dish.categoryName }}</span>
+        {% if dish.homeMade %}
+            <span class="ui label teal">
+                Home made
+            </span>
+        {% endif %}
+    </p>
+    <h3 class="ui horizontal divider header">
+        <i class="tag icon"></i>
+        Description
+    </h3>
+    <p class="dish-description">{{ dish.description }}</p>
+    <h3 class="ui horizontal divider header">
+        <i class="warning sign icon"></i>
+        Allergies
+    </h3>
+
 {% endblock %}

@@ -223,11 +223,29 @@ class Menu
     }
 
     /**
+     * Get Dishes
+     *
      * @return ArrayCollection
      */
     public function getDishes()
     {
         return $this->dishes;
+    }
+
+    /**
+     * Get Dishes by Category
+     *
+     * @return array
+     */
+    public function getDishesByCategory(){
+        $dishes = $this->getDishes();
+        $result = array_fill_keys(array_keys(Dish::getCategoriesArray()), []);
+
+        foreach($dishes as $dish){
+            $result[$dish->getCategoryName()][] = $dish;
+        }
+
+        return $result;
     }
 
     /**
