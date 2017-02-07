@@ -40,7 +40,6 @@ class ReservationSubscriber implements EventSubscriber
 
         if ($object instanceof Reservation) {
             $customerEmail = $object->getEmail();
-            dump($customerEmail);
             if ($object->isAccepted()){
                 $message = \Swift_Message::newInstance()
                     ->setSubject(sprintf('RESERVATION %s ACCEPTED - {emakina food academy}', $object->getName()))

@@ -48,6 +48,7 @@ class Dish
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="title", type="string", length=50)
      */
     private $title;
@@ -55,6 +56,7 @@ class Dish
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="description", type="text")
      */
     private $description;
@@ -62,6 +64,7 @@ class Dish
     /**
      * @var float
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="price", type="float")
      */
     private $price;
@@ -69,6 +72,7 @@ class Dish
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="status", type="string", length=50)
      */
     private $status;
@@ -76,6 +80,7 @@ class Dish
     /**
      * @var bool
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="homeMade", type="boolean")
      */
     private $homeMade;
@@ -84,12 +89,14 @@ class Dish
      * Many Features have One Product.
      * @ORM\ManyToOne(targetEntity="DamDan\UserBundle\Entity\User", inversedBy="dishes")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @Assert\NotBlank()
      */
     private $author;
 
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="image", type="string", length=255)
      */
     private $image;
@@ -97,6 +104,7 @@ class Dish
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="category", type="string", length=100)
      */
     private $category;

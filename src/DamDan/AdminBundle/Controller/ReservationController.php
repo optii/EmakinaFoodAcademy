@@ -8,8 +8,10 @@
 
 namespace DamDan\AdminBundle\Controller;
 
+use DamDan\AppBundle\Entity\Reservation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -25,6 +27,7 @@ class ReservationController extends Controller
      *
      * @Route("/", name="admin_reservation_index")
      * @Method("GET")
+     * @Security("is_granted('ROLE_SERVER')")
      */
     public function indexAction()
     {
@@ -34,7 +37,7 @@ class ReservationController extends Controller
         $reservations = $em->getRepository('DamDanAppBundle:Reservation')->findBy(array(), array('id' => 'DESC'));
 
         foreach ($reservations as $reservation){
-            if($reservation->getAccepted() == 0){
+            if($reservation->getAccepted() == Reservation::STATUS_PENDING){
                 ++$nbUnconfirmed;
             }
         }
@@ -51,6 +54,7 @@ class ReservationController extends Controller
      *
      * @Route("/accept/{id}", name="accept_reservation")
      * @Method("POST")
+     * @Security("is_granted('ROLE_SERVER')")
      */
      public function acceptAction(Request $request)
      {
@@ -60,7 +64,7 @@ class ReservationController extends Controller
              ->getRepository('DamDanAppBundle:Reservation');
 
          $reservation = $repository->find($request->get('id'));
-         $reservation->setAccepted();
+         $reservation->setAccepted(Reservation::STATUS_ACCEPTED);
          $em = $this->getDoctrine()->getManager();
          $em->persist($reservation);
          $em->flush();
@@ -72,6 +76,7 @@ class ReservationController extends Controller
      *
      * @Route("/refuse/{id}", name="refuse_reservation")
      * @Method("POST")
+     * @Security("is_granted('ROLE_SERVER')")
      */
      public function refuseAction(Request $request)
      {
@@ -81,7 +86,7 @@ class ReservationController extends Controller
              ->getRepository('DamDanAppBundle:Reservation');
 
          $reservation = $repository->find($request->get('id'));
-         $reservation->setRefused();
+         $reservation->setAccepted(Reservation::STATUS_REFUSED);
          $em = $this->getDoctrine()->getManager();
          $em->persist($reservation);
          $em->flush();
