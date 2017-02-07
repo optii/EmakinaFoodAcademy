@@ -11,6 +11,7 @@ namespace DamDan\AdminBundle\Controller;
 use DamDan\AppBundle\Entity\Reservation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -26,6 +27,7 @@ class ReservationController extends Controller
      *
      * @Route("/", name="admin_reservation_index")
      * @Method("GET")
+     * @Security("is_granted('ROLE_SERVER')")
      */
     public function indexAction()
     {
@@ -52,6 +54,7 @@ class ReservationController extends Controller
      *
      * @Route("/accept/{id}", name="accept_reservation")
      * @Method("POST")
+     * @Security("is_granted('ROLE_SERVER')")
      */
      public function acceptAction(Request $request)
      {
@@ -73,6 +76,7 @@ class ReservationController extends Controller
      *
      * @Route("/refuse/{id}", name="refuse_reservation")
      * @Method("POST")
+     * @Security("is_granted('ROLE_SERVER')")
      */
      public function refuseAction(Request $request)
      {
