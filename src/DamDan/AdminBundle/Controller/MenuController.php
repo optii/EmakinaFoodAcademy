@@ -3,6 +3,7 @@
 namespace DamDan\AdminBundle\Controller;
 
 use DamDan\AppBundle\Entity\Menu;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -37,11 +38,12 @@ class MenuController extends Controller
      *
      * @Route("/new", name="admin_menu_new")
      * @Method({"GET", "POST"})
+     * @Security("is_granted('ROLE_EDITOR')")
      */
     public function newAction(Request $request)
     {
         $menu = new Menu();
-        $form = $this->createForm('DamDan\AppBundle\Form\MenuType', $menu);
+        $form = $this->createForm($this->get('damdan.form.type.menu'), $menu);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -49,6 +51,11 @@ class MenuController extends Controller
             $menu->setAuthor($this->getUser());
             $em->persist($menu);
             $em->flush($menu);
+
+            if($this->getUser()->hasRole('ROLE_EDITOR')){
+                $emails = $em->getRepository('DamDanUserBundle:User')->findEmailsByRoles([User::ROLE_CHEF, User::ROLE_REVIEWER]);
+                $this->sendReviewEmail($menu, $emails);
+            }
 
             return $this->redirectToRoute('admin_menu_show', array('id' => $menu->getId()));
         }
@@ -80,15 +87,22 @@ class MenuController extends Controller
      *
      * @Route("/{id}/edit", name="admin_menu_edit")
      * @Method({"GET", "POST"})
+     * @Security("is_granted('ROLE_EDITOR')")
      */
     public function editAction(Request $request, Menu $menu)
     {
         $deleteForm = $this->createDeleteForm($menu);
-        $editForm = $this->createForm('DamDan\AppBundle\Form\MenuType', $menu);
+        $editForm = $this->createForm($this->get('damdan.form.type.menu'), $menu);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            if($this->getUser()->hasRole('ROLE_EDITOR')){
+                $emails = $em->getRepository('DamDanUserBundle:User')->findEmailsByRoles([User::ROLE_CHEF, User::ROLE_REVIEWER]);
+                $this->sendReviewEmail($menu, $emails);
+            }
 
             return $this->redirectToRoute('admin_menu_edit', array('id' => $menu->getId()));
         }
@@ -105,6 +119,7 @@ class MenuController extends Controller
      *
      * @Route("/{id}", name="admin_menu_delete")
      * @Method("DELETE")
+     * @Security("is_granted('ROLE_CHEF')")
      */
     public function deleteAction(Request $request, Menu $menu)
     {
@@ -134,5 +149,29 @@ class MenuController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+
+    /**
+     * Sends the review email
+     *
+     * @param Menu $menu
+     * @param $emails
+     */
+    private function sendReviewEmail(Menu $menu, $emails)
+    {
+        $message = \Swift_Message::newInstance()
+            ->setFrom($this->getUser()->getEmail())
+            ->setTo($emails)
+            ->setSubject(sprintf('[MENU REVIEW] %s needs reviewing - {emakina food academy}', $menu->getTitle()))
+            ->setBody($this->render('DamDanAdminBundle:emails:menu_review.html.twig', array('menu' => $menu)),
+                'text/html'
+            )
+            ->addPart(
+                $this->render('DamDanAdminBundle:emails:menu_review.txt.twig', array('menu' => $menu)),
+                'text/plain'
+            );
+
+        $this->get('mailer')->send($message);
     }
 }

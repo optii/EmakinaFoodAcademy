@@ -24,13 +24,15 @@
                 <td>{% if user.roles %}{{ user.roleNames|join(', ') }}{% endif %}</td>
                 <td>
                     <a class="ui button inverted blue" href="{{ path('admin_user_show', { 'id': user.id }) }}">show</a>
-                    <a class="ui button inverted orange" href="{{ path('admin_user_edit', { 'id': user.id }) }}">edit</a>
+                    {% if is_granted('ROLE_CHEF') %}
+                        <a class="ui button inverted orange" href="{{ path('admin_user_edit', { 'id': user.id }) }}">edit</a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <a class="ui button inverted green" href="{{ path('admin_user_new') }}">Create a new user</a>
-
+    {% if is_granted('ROLE_CHEF') %}
+        <a class="ui button inverted green" href="{{ path('admin_user_new') }}">Create a new user</a>
+    {% endif %}
 {% endblock %}

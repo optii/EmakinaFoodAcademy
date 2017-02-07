@@ -3,6 +3,7 @@
 namespace DamDan\AdminBundle\Controller;
 
 use DamDan\UserBundle\Entity\User;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -37,6 +38,7 @@ class UserController extends Controller
      *
      * @Route("/new", name="admin_user_new")
      * @Method({"GET", "POST"})
+     * @Security("is_granted('ROLE_CHEF')")
      */
     public function newAction(Request $request)
     {
@@ -79,6 +81,7 @@ class UserController extends Controller
      *
      * @Route("/{id}/edit", name="admin_user_edit")
      * @Method({"GET", "POST"})
+     * @Security("is_granted('ROLE_CHEF')")
      */
     public function editAction(Request $request, User $user)
     {
@@ -104,6 +107,7 @@ class UserController extends Controller
      *
      * @Route("/{id}", name="admin_user_delete")
      * @Method("DELETE")
+     * @Security("is_granted('ROLE_CHEF')")
      */
     public function deleteAction(Request $request, User $user)
     {

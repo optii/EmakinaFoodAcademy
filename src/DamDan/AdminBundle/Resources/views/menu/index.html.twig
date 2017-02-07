@@ -27,11 +27,15 @@
                 <td>{{ menu.statusName }}</td>
                 <td>
                     <a class="ui button inverted small blue" href="{{ path('admin_menu_show', { 'id': menu.id }) }}">show</a>
-                    <a class="ui button inverted small orange" href="{{ path('admin_menu_edit', { 'id': menu.id }) }}">edit</a>
+                    {% if is_granted('ROLE_EDITOR') %}
+                        <a class="ui button inverted small orange" href="{{ path('admin_menu_edit', { 'id': menu.id }) }}">edit</a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-    <a class="ui button green inverted" href="{{ path('admin_menu_new') }}"><i class="ui icon plus"></i> Create a menu</a>
+    {% if is_granted('ROLE_EDITOR') %}
+        <a class="ui button green inverted" href="{{ path('admin_menu_new') }}"><i class="ui icon plus"></i> Create a menu</a>
+    {% endif %}
 {% endblock %}

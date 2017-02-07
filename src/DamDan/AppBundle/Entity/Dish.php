@@ -121,6 +121,7 @@ class Dish
     {
         $this->allergens = new ArrayCollection();
         $this->menus = new ArrayCollection();
+        $this->status = self::STATUS_DRAFT;
     }
 
     /**

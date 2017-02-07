@@ -31,12 +31,16 @@
                 <td>{% if dish.homeMade %}Yes{% else %}No{% endif %}</td>
                 <td>
                     <a class="ui inverted button small blue" href="{{ path('admin_dish_show', { 'id': dish.id }) }}">show</a>
+                    {% if is_granted('ROLE_EDITOR') %}
                     <a class="ui inverted button small orange"
                        href="{{ path('admin_dish_edit', { 'id': dish.id }) }}">edit</a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-    <a class="ui inverted button green" href="{{ path('admin_dish_new') }}"><i class="ui icon plus" ></i>Create a new dish</a>
+    {% if is_granted('ROLE_EDITOR') %}
+        <a class="ui inverted button green" href="{{ path('admin_dish_new') }}"><i class="ui icon plus" ></i>Create a new dish</a>
+    {% endif %}
 {% endblock %}

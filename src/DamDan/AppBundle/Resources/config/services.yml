@@ -23,3 +23,15 @@ services:
             tags:
                 - { name: doctrine.event_listener, event: prePersist }
                 - { name: doctrine.event_listener, event: preUpdate }
+
+    damdan.form.type.dish:
+            class: DamDan\AppBundle\Form\DishType
+            arguments: ["@security.authorization_checker"]
+            tags:
+                - { name: form.type, alias: damdan_dish_type }
+
+    damdan.form.type.menu:
+                class: DamDan\AppBundle\Form\MenuType
+                arguments: ["@security.authorization_checker"]
+                tags:
+                    - { name: form.type, alias: damdan_menu_type }
