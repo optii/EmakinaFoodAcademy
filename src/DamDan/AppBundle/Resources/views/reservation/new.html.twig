@@ -9,27 +9,27 @@
             <h1>Your reservation's recap</h1>
             <div class="ui list">
                 <div class="item">
-                    <div class="header">Date : </div>
+                    <div class="ui white text bold">Date : </div>
                     <span id="modalDate"></span>
                 </div>
                 <div class="item">
-                    <div class="header">Hour : </div>
+                    <div class="ui white text bold">Hour : </div>
                     <span id="modalHour"></span>
                 </div>
                 <div class="item">
-                    <div class="header">Number of people : </div>
+                    <div class="ui white text bold">Number of people : </div>
                     <span id="modalPeople"></span>
                 </div>
                 <div class="item">
-                    <div class="header">E-mail : </div>
+                    <div class="ui white text bold">E-mail : </div>
                     <span id="modalMail"></span>
                 </div>
                 <div class="item">
-                    <div class="header">Name : </div>
+                    <div class="ui white text bold">Name : </div>
                     <span id="modalName"></span>
                 </div>
                 <div class="item">
-                    <div class="header">Phone : </div>
+                    <div class="ui white text bold">Phone : </div>
                     <span id="modalPhone"></span>
                 </div>
             </div>
@@ -57,13 +57,11 @@
     {{ parent() }}
     <script>
         $('.submit').click(function(){
-            var period = $('#damdan_appbundle_reservation_lunchOrDinner .checked input').val() == 1 ? "Lunch" : "Dinner";
-            $('#modalDate').text('Date: '+$('#damdan_appbundle_reservation_date').val());
-            $('#modalHour').text('Créneau: '+period);
-            $('#modalPeople').text('Number of people: '+$('#damdan_appbundle_reservation_seats').val());
-            $('#modalMail').text('E-mail: '+$('#damdan_appbundle_reservation_email').val());
-            $('#modalName').text('Your name: '+$('#damdan_appbundle_reservation_name').val());
-            $('#modalPhone').text('Your phone: '+$('#damdan_appbundle_reservation_phone').val());
+            $('#modalDate').text($('#damdan_appbundle_reservation_date').val());
+            $('#modalPeople').text($('#damdan_appbundle_reservation_seats').val());
+            $('#modalMail').text($('#damdan_appbundle_reservation_email').val());
+            $('#modalName').text($('#damdan_appbundle_reservation_name').val());
+            $('#modalPhone').text($('#damdan_appbundle_reservation_phone').val());
             $('.ui.basic.modal').modal('show');
         });
 

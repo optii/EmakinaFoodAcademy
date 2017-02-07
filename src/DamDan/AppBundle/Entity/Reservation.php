@@ -56,6 +56,12 @@ class Reservation
      */
     private $phone;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="accepted", type="smallint")
+     */
+     private $accepted;
 
     /**
      * Get id
@@ -155,6 +161,30 @@ class Reservation
     {
         $this->phone = $phone;
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAccepted()
+    {
+        return $this->accepted;
+    }
+
+
+    public function setAcceptedPending()
+    {
+        $this->accepted = 0;
+    }
+
+    public function setAccepted()
+    {
+        $this->accepted = 1;
+    }
+
+    public function setRefused()
+    {
+        $this->accepted = 2;
     }
 
     public function __toString()
