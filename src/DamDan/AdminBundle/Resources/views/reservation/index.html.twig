@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ breadcrumb({ 'home': 'home', 'admin_index': 'admin', 'admin_reservation_index': 'reservations'}) }}
+    <h1 class="ui horizontal header divider">Reservations list</h1>
+
+    <table class="ui table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Date</th>
+            <th>Seats</th>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for reservation in reservations %}
+            <tr>
+                <td><a href="{{ path('reservation_show', { 'id': reservation.id }) }}">{{ reservation.id }}</a></td>
+                <td>{% if reservation.date %}{{ reservation.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ reservation.seats }}</td>
+                <td>{{ reservation.email }}</td>
+                <td>{{ reservation.name }}</td>
+                <td>{{ reservation.phone }}</td>
+                <td>
+                    {% if reservation.accepted == 0 %}
+                        <form style="display:inline-block" method="post" action="{{ path('accept_reservation', {'id': reservation.id}) }}">
+                            <button class="ui green inverted button">Accept</button>
+                        </form>
+                        <form style="display:inline-block" method="post" action="{{ path('refuse_reservation', {'id': reservation.id}) }}">
+                            <button class="ui red inverted button">Refuse</button>
+                        </form>
+                    {% elseif reservation.accepted == 1 %}
+                        <span class="ui green tag label">Accepted</span>
+                    {% else %}
+                        <span class="ui red tag label">Refused</span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

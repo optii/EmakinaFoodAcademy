@@ -3,6 +3,7 @@
 namespace DamDan\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Reservation
@@ -12,6 +13,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Reservation
 {
+    /**
+     * Status constants
+     */
+    const STATUS_PENDING       = 0;
+    const STATUS_ACCEPTED      = 1;
+    const STATUS_REFUSED       = 2;
+
     /**
      * @var int
      *
@@ -24,6 +32,7 @@ class Reservation
     /**
      * @var \DateTime
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
@@ -31,6 +40,8 @@ class Reservation
     /**
      * @var int
      *
+     * @Assert\NotBlank()
+     * @Assert\GreaterThanOrEqual(0)
      * @ORM\Column(name="seats", type="integer")
      */
     private $seats;
@@ -38,6 +49,11 @@ class Reservation
     /**
      * @var string
      *
+     * @Assert\Email(
+     *     message = "The email is not valid.",
+     *     checkMX = true
+     * )
+     * @Assert\NotBlank()
      * @ORM\Column(name="email", type="string", length=200)
      */
     private $email;
@@ -45,6 +61,7 @@ class Reservation
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="name", type="string", length=200)
      */
     private $name;
@@ -52,10 +69,17 @@ class Reservation
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="phone", type="string", length=20)
      */
     private $phone;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="accepted", type="smallint")
+     */
+     private $accepted;
 
     /**
      * Get id
@@ -155,6 +179,29 @@ class Reservation
     {
         $this->phone = $phone;
         return $this;
+    }
+
+    public function setAccepted($status)
+    {
+        $this->accepted = $status;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAccepted()
+    {
+        return $this->accepted;
+    }
+
+    public function isAccepted()
+    {
+        return $this->accepted == 1;
+    }
+
+    public function isRefused()
+    {
+        return $this->accepted == 2;
     }
 
     public function __toString()

@@ -28,10 +28,13 @@
         </tr>
         </tbody>
     </table>
-
+    {% if is_granted('ROLE_EDITOR') %}
     <a class="ui left floated inverted button orange" href="{{ path('admin_menu_edit', { 'id': menu.id }) }}">Edit</a>
-    {{ form_start(delete_form) }}
-        <input class="ui left floated inverted button red" type="submit" value="Delete">
-    {{ form_end(delete_form) }}
+    {% endif %}
+    {% if is_granted('ROLE_CHEF') %}
+        {{ form_start(delete_form) }}
+            <input class="ui left floated inverted button red" type="submit" value="Delete">
+        {{ form_end(delete_form) }}
+    {% endif %}
 
 {% endblock %}

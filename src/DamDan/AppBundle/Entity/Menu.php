@@ -4,6 +4,7 @@ namespace DamDan\AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Menu
@@ -33,6 +34,7 @@ class Menu
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="title", type="string", length=100)
      */
     private $title;
@@ -40,6 +42,7 @@ class Menu
     /**
      * @var float
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="price", type="float")
      */
     private $price;
@@ -47,6 +50,7 @@ class Menu
     /**
      * @var int
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="appearance_order", type="integer")
      */
     private $order;
@@ -54,6 +58,7 @@ class Menu
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="status", type="string", length=50)
      */
     private $status;
@@ -62,6 +67,7 @@ class Menu
      * One author has many menus.
      * @ORM\ManyToOne(targetEntity="DamDan\UserBundle\Entity\User", inversedBy="menus")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @Assert\NotBlank()
      */
     private $author;
 
@@ -75,6 +81,7 @@ class Menu
     public function __construct()
     {
         $this->dishes = new ArrayCollection();
+        $this->status = self::STATUS_DRAFT;
     }
 
     /**

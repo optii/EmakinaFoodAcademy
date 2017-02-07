@@ -28,6 +28,9 @@
     text-align: center;
 }
 
+.bold {
+    font-weight: bold;
+}
 .list-image{
     height:200px !important;
     width:100% !important;

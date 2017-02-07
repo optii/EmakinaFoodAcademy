@@ -48,6 +48,7 @@ class Dish
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="title", type="string", length=50)
      */
     private $title;
@@ -55,6 +56,7 @@ class Dish
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="description", type="text")
      */
     private $description;
@@ -62,6 +64,7 @@ class Dish
     /**
      * @var float
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="price", type="float")
      */
     private $price;
@@ -69,6 +72,7 @@ class Dish
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="status", type="string", length=50)
      */
     private $status;
@@ -76,6 +80,7 @@ class Dish
     /**
      * @var bool
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="homeMade", type="boolean")
      */
     private $homeMade;
@@ -84,12 +89,14 @@ class Dish
      * Many Features have One Product.
      * @ORM\ManyToOne(targetEntity="DamDan\UserBundle\Entity\User", inversedBy="dishes")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @Assert\NotBlank()
      */
     private $author;
 
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="image", type="string", length=255)
      */
     private $image;
@@ -97,17 +104,14 @@ class Dish
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="category", type="string", length=100)
      */
     private $category;
 
     /**
      * Many Users have Many Groups.
-     * @ORM\ManyToMany(targetEntity="Allergen")
-     * @ORM\JoinTable(name="dishes_allergens",
-     *      joinColumns={@ORM\JoinColumn(name="dish_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="allergen_id", referencedColumnName="id")}
-     *      )
+     * @ORM\ManyToMany(targetEntity="Allergen", cascade={"persist"})
      */
     private $allergens;
 
@@ -121,6 +125,7 @@ class Dish
     {
         $this->allergens = new ArrayCollection();
         $this->menus = new ArrayCollection();
+        $this->status = self::STATUS_DRAFT;
     }
 
     /**
@@ -258,20 +263,6 @@ class Dish
     }
 
     /**
-     * Get status
-     * @return array
-     */
-    public static function getStatusArray()
-    {
-        return [
-            "Draft"         => self::STATUS_DRAFT,
-            "Accepted"      => self::STATUS_ACCEPTED,
-            "In validation" => self::STATUS_IN_VALIDATION,
-            "Refused"       => self::STATUS_REFUSED
-        ];
-    }
-
-    /**
      * Set homeMade
      *
      * @param boolean $homeMade
@@ -303,6 +294,28 @@ class Dish
     public function getAllergens()
     {
         return $this->allergens;
+    }
+
+    /**
+     * Add Allergen
+     *
+     * @param Allergen $allergen
+     * @return $this
+     */
+    public function addAllergen(Allergen $allergen){
+        $this->allergens->add($allergen);
+        return $this;
+    }
+
+    /**
+     * Remove Allergen
+     *
+     * @param Allergen $allergen
+     * @return $this
+     */
+    public function removeAllergen(Allergen $allergen){
+        $this->allergens->removeElement($allergen);
+        return $this;
     }
 
     /**
@@ -388,6 +401,20 @@ class Dish
     public function getCategoryColor()
     {
         return self::getCategoriesColors()[$this->getCategory()];
+    }
+
+    /**
+     * Get status
+     * @return array
+     */
+    public static function getStatusArray()
+    {
+        return [
+            "Draft"         => self::STATUS_DRAFT,
+            "Accepted"      => self::STATUS_ACCEPTED,
+            "In validation" => self::STATUS_IN_VALIDATION,
+            "Refused"       => self::STATUS_REFUSED
+        ];
     }
 
     /**

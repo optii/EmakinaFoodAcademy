@@ -12,6 +12,7 @@ use DamDan\AppBundle\Entity\Dish;
 use DamDan\AppBundle\Entity\Menu;
 use DamDan\UserBundle\Entity\User;
 use Doctrine\Common\EventSubscriber;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Bundle\TwigBundle\TwigEngine;
 
@@ -40,41 +41,49 @@ class NotifySubscriber implements EventSubscriber
     {
         $object = $eventArgs->getObject();
 
-        $servers = $eventArgs->getEntityManager()->getRepository('DamDanUserBundle:User')->findByRole(User::ROLE_SERVER);
-        $emails = array_map(function(User $server){
-            return $server->getEmail();
-        }, $servers);
-
-
         if ($object instanceof Dish) {
-            $message = \Swift_Message::newInstance()
+            $message = $this->initializeMessage($eventArgs->getEntityManager());
+            $message
                 ->setSubject(sprintf('NEW DISH %s - {emakina food academy}', $object->__toString()))
-                ->setFrom($this->sender)
-                ->setTo($emails)
                 ->setBody($this->templating->render('DamDanAppBundle:Emails:dish_alert.html.twig', array('dish' => $object)),
                     'text/html'
                 )
                 ->addPart(
                     $this->templating->render('DamDanAppBundle:Emails:dish_alert.txt.twig', array('dish' => $object)),
                     'text/plain'
-                );
+                )
+            ;
+
             $this->swiftmailer->send($message);
         }
 
-        if($object instanceof Menu){
-            $message = \Swift_Message::newInstance()
+        if ($object instanceof Menu) {
+            $message = $this->initializeMessage($eventArgs->getEntityManager());
+            $message
                 ->setSubject(sprintf('NEW MENU %s - {emakina food academy}', $object->__toString()))
-                ->setFrom($this->sender)
-                ->setTo($emails)
                 ->setBody($this->templating->render('DamDanAppBundle:Emails:menu_alert.html.twig', array('menu' => $object)),
                     'text/html'
                 )
                 ->addPart(
                     $this->templating->render('DamDanAppBundle:Emails:menu_alert.txt.twig', array('menu' => $object)),
                     'text/plain'
-                );
+                )
+            ;
 
             $this->swiftmailer->send($message);
         }
+    }
+
+    /**
+     * @param EntityManager $em
+     * @return \Swift_Message $message
+     */
+    private function initializeMessage(EntityManager $em)
+    {
+        $emails = $em->getRepository('DamDanUserBundle:User')->findEmailsByRoles(User::ROLE_SERVER);
+        $message = \Swift_Message::newInstance()
+            ->setFrom($this->sender)
+            ->setTo($emails);
+        return $message;
     }
 }

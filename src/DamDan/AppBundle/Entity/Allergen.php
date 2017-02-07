@@ -4,6 +4,7 @@ namespace DamDan\AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Allergen
@@ -25,15 +26,10 @@ class Allergen
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="name", type="string", length=150, unique=true)
      */
     private $name;
-
-
-     public function __construct()
-     {
-        $this->dishes = new ArrayCollection();
-     }
 
     /**
      * Get id
@@ -69,12 +65,9 @@ class Allergen
         return $this->name;
     }
 
-    /**
-     * Get dishes
-     *
-     * @return ArrayCollection
-     */
-     public function getDishes(){
-        return $this->dishes;
-     }
+
+    public function __toString()
+    {
+       return $this->getName();
+    }
 }
