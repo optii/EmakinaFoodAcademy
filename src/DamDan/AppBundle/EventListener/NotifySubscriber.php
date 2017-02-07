@@ -8,7 +8,6 @@
 
 namespace DamDan\AppBundle\EventListener;
 
-
 use DamDan\AppBundle\Entity\Dish;
 use DamDan\AppBundle\Entity\Menu;
 use DamDan\UserBundle\Entity\User;
@@ -40,8 +39,9 @@ class NotifySubscriber implements EventSubscriber
     public function postPersist(LifecycleEventArgs $eventArgs)
     {
         $object = $eventArgs->getObject();
+
         $servers = $eventArgs->getEntityManager()->getRepository('DamDanUserBundle:User')->findByRole(User::ROLE_SERVER);
-        $emails = array_map(function($server){
+        $emails = array_map(function(User $server){
             return $server->getEmail();
         }, $servers);
 

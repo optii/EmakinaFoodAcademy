@@ -1,4 +1,55 @@
 {% extends '::base.html.twig' %}
 {% block body %}
-    <h1>{{ menu.title }}</h1>
+    <h1 class="ui horizontal header divider">{{ menu.title }}   <span class="ui red tag label">{{ menu.price }}€</span></h1>
+
+    <div class="slider">
+        {% for dish in menu.dishes %}
+            <div>
+                <div class="dish-header" style="background-image: url({{ asset('img/uploads/' ~ dish.image) }})"></div>
+            </div>
+        {% endfor %}
+    </div>
+    {% for category, dishes in menu.dishesByCategory %}
+        {% if dishes|length > 0 %}
+        <h3 class="ui horizontal divider header">
+            {{ category }}
+        </h3>
+        <div class="ui one column centered grid">
+            {% for dish in dishes %}
+                <div class="eight wide column">
+                    <div  class="ui segment">
+                        <a class="item" href="{{ path('dish_show', {id: dish.id}) }}">
+                        <div class="ui grid">
+                            <div class="four wide column">
+                                <img style="height:100px" class="ui image small rounded" src="{{ asset('img/uploads/' ~ dish.image) }}"/>
+                            </div>
+                            <div class="twelve wide column">
+                                <h4>{{ dish.title }}</h4>
+                                <p>{{ dish.description }}</p>
+                                {% if dish.homeMade %}
+                                    <span class="ui label teal">Home Made</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endfor %}
+
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('.slider').slick({
+                autoplay: true,
+                nextArrow: false,
+                prevArrow: false,
+                adaptiveHeight: true
+            });
+        });
+    </script>
 {% endblock %}

@@ -12,3 +12,14 @@ services:
 
             tags:
                 - { name: doctrine.event_subscriber, connection: default }
+
+    damdan.image_uploader:
+            class: DamDan\AppBundle\Services\FileUploader
+            arguments: ['%dandam_app.upload_dir%']
+
+    damdan.doctrine_dish_listener:
+            class: DamDan\AppBundle\EventListener\ImageUploadListener
+            arguments: ['@damdan.image_uploader']
+            tags:
+                - { name: doctrine.event_listener, event: prePersist }
+                - { name: doctrine.event_listener, event: preUpdate }

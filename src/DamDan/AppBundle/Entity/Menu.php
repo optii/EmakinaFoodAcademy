@@ -47,7 +47,7 @@ class Menu
     /**
      * @var int
      *
-     * @ORM\Column(name="order", type="integer")
+     * @ORM\Column(name="appearance_order", type="integer")
      */
     private $order;
 
@@ -223,11 +223,29 @@ class Menu
     }
 
     /**
+     * Get Dishes
+     *
      * @return ArrayCollection
      */
     public function getDishes()
     {
         return $this->dishes;
+    }
+
+    /**
+     * Get Dishes by Category
+     *
+     * @return array
+     */
+    public function getDishesByCategory(){
+        $dishes = $this->getDishes();
+        $result = array_fill_keys(array_keys(Dish::getCategoriesArray()), []);
+
+        foreach($dishes as $dish){
+            $result[$dish->getCategoryName()][] = $dish;
+        }
+
+        return $result;
     }
 
     /**
@@ -245,5 +263,9 @@ class Menu
      {
         $this->dishes->add($dish);
      }
-}
 
+     public function __toString()
+     {
+         return $this->getTitle();
+     }
+}

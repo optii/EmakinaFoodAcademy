@@ -14,7 +14,7 @@
         <div class="slider">
             {% for dish in menu.dishes %}
                 <div>
-                    <img src="{{ asset(dish.image) }}">
+                    <img class="list-image" src="{{ asset('img/uploads/' ~ dish.image) }}">
                 </div>
             {% endfor %}
         </div>

@@ -28,6 +28,22 @@
     text-align: center;
 }
 
-.bold{
+.bold {
     font-weight: bold;
+}
+.list-image{
+    height:200px !important;
+    width:100% !important;
+}
+
+.dish-header{
+    height: 300px;
+    background-size: cover;
+    background-position: 50%;
+    margin-bottom: 1em;
+    border-radius: 5px;
+}
+
+.dish-description{
+    font-size: 2em;
 }

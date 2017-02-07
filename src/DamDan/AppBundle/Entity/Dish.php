@@ -4,6 +4,8 @@ namespace DamDan\AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Dish
@@ -28,6 +30,11 @@ class Dish
     const CATEGORY_MAIN_COURSE = "CATEGORY_MAIN_COURSE";
     const CATEGORY_CHEESE = "CATEGORY_CHEESE";
     const CATEGORY_DESSERT = "CATEGORY_DESSERT";
+
+    /**
+     * @Assert\File(mimeTypes={ "image/jpeg", "image/png", "image/gif" })
+     */
+    private $file;
 
     /**
      * @var int
@@ -114,6 +121,25 @@ class Dish
     {
         $this->allergens = new ArrayCollection();
         $this->menus = new ArrayCollection();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param mixed $file
+     * @return $this
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
+
+        return $this;
     }
 
     /**
@@ -398,4 +424,3 @@ class Dish
         return $this->getTitle() . ' (' . $this->getCategoryName() . ')';
     }
 }
-

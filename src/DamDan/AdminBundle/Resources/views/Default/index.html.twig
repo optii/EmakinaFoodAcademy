@@ -1,8 +1,39 @@
 {% extends '::base.html.twig' %}
 {% block body %}
     {{ breadcrumb({ 'home': 'home', 'admin_index': 'admin'}) }}
-    <h1>Admin home</h1>
-    <a class="ui button blue inverted" href="{{ path('admin_menu_index') }}">Menus</a>
-    <a class="ui button blue inverted" href="{{ path('admin_dish_index') }}">Dishes</a>
-    <a class="ui button blue inverted" href="{{ path('admin_user_index') }}">Users</a>
+    <h1 class="ui horizontal header divider">Admin</h1>
+    <div class="ui four stackable cards">
+        <div class="card">
+            <a class="image" href="{{ path('admin_menu_index') }}">
+                <img src="{{ asset('img/menu.jpg') }}">
+            </a>
+            <a href="{{ path('admin_menu_index') }}" class="ui bottom attached button red">
+                Menus
+            </a>
+        </div>
+        <div class="card">
+            <a class="image"  href="{{ path('admin_dish_index') }}">
+                <img src="{{ asset('img/dish.jpg') }}">
+            </a>
+            <a href="{{ path('admin_dish_index') }}" class="ui bottom attached button red">
+                Dishes
+            </a>
+        </div>
+        <div class="card">
+            <a class="image"  href="{{ path('admin_user_index') }}">
+                <img src="{{ asset('img/users.jpg') }}">
+            </a>
+            <a href="{{ path('admin_user_index') }}" class="ui bottom attached button red">
+                Users
+            </a>
+        </div>
+        <div class="card">
+            <a class="image"  href="">
+                <img src="{{ asset('img/reservation.jpg') }}">
+            </a>
+            <a href="" class="ui bottom attached button red">
+                Reservations
+            </a>
+        </div>
+    </div>
 {% endblock %}

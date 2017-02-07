@@ -192,4 +192,3 @@ class Reservation
         return $this->getName(). ' - '. $this->getSeats();
     }
 }
-

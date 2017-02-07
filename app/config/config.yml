@@ -76,3 +76,4 @@ assetic:
 
 dam_dan_app:
     administrator_email: daniel@dancole.fr
+    upload_dir: img/uploads
