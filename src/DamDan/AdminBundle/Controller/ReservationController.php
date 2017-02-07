@@ -8,6 +8,7 @@
 
 namespace DamDan\AdminBundle\Controller;
 
+use DamDan\AppBundle\Entity\Reservation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -34,7 +35,7 @@ class ReservationController extends Controller
         $reservations = $em->getRepository('DamDanAppBundle:Reservation')->findBy(array(), array('id' => 'DESC'));
 
         foreach ($reservations as $reservation){
-            if($reservation->getAccepted() == 0){
+            if($reservation->getAccepted() == Reservation::STATUS_PENDING){
                 ++$nbUnconfirmed;
             }
         }
@@ -60,7 +61,7 @@ class ReservationController extends Controller
              ->getRepository('DamDanAppBundle:Reservation');
 
          $reservation = $repository->find($request->get('id'));
-         $reservation->setAccepted();
+         $reservation->setAccepted(Reservation::STATUS_ACCEPTED);
          $em = $this->getDoctrine()->getManager();
          $em->persist($reservation);
          $em->flush();
@@ -81,7 +82,7 @@ class ReservationController extends Controller
              ->getRepository('DamDanAppBundle:Reservation');
 
          $reservation = $repository->find($request->get('id'));
-         $reservation->setRefused();
+         $reservation->setAccepted(Reservation::STATUS_REFUSED);
          $em = $this->getDoctrine()->getManager();
          $em->persist($reservation);
          $em->flush();
