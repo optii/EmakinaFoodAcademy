@@ -171,6 +171,15 @@ class Reservation
         return $this->accepted;
     }
 
+    public function isAccepted()
+    {
+        return $this->accepted == 1;
+    }
+
+    public function isRefused()
+    {
+        return $this->accepted == 2;
+    }
 
     public function setAcceptedPending()
     {
