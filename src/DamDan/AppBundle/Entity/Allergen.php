@@ -29,12 +29,6 @@ class Allergen
      */
     private $name;
 
-
-     public function __construct()
-     {
-        $this->dishes = new ArrayCollection();
-     }
-
     /**
      * Get id
      *
@@ -69,12 +63,9 @@ class Allergen
         return $this->name;
     }
 
-    /**
-     * Get dishes
-     *
-     * @return ArrayCollection
-     */
-     public function getDishes(){
-        return $this->dishes;
-     }
+
+    public function __toString()
+    {
+       return $this->getName();
+    }
 }

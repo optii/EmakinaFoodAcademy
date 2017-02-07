@@ -103,11 +103,7 @@ class Dish
 
     /**
      * Many Users have Many Groups.
-     * @ORM\ManyToMany(targetEntity="Allergen")
-     * @ORM\JoinTable(name="dishes_allergens",
-     *      joinColumns={@ORM\JoinColumn(name="dish_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="allergen_id", referencedColumnName="id")}
-     *      )
+     * @ORM\ManyToMany(targetEntity="Allergen", cascade={"persist"})
      */
     private $allergens;
 
@@ -259,20 +255,6 @@ class Dish
     }
 
     /**
-     * Get status
-     * @return array
-     */
-    public static function getStatusArray()
-    {
-        return [
-            "Draft"         => self::STATUS_DRAFT,
-            "Accepted"      => self::STATUS_ACCEPTED,
-            "In validation" => self::STATUS_IN_VALIDATION,
-            "Refused"       => self::STATUS_REFUSED
-        ];
-    }
-
-    /**
      * Set homeMade
      *
      * @param boolean $homeMade
@@ -304,6 +286,28 @@ class Dish
     public function getAllergens()
     {
         return $this->allergens;
+    }
+
+    /**
+     * Add Allergen
+     *
+     * @param Allergen $allergen
+     * @return $this
+     */
+    public function addAllergen(Allergen $allergen){
+        $this->allergens->add($allergen);
+        return $this;
+    }
+
+    /**
+     * Remove Allergen
+     *
+     * @param Allergen $allergen
+     * @return $this
+     */
+    public function removeAllergen(Allergen $allergen){
+        $this->allergens->removeElement($allergen);
+        return $this;
     }
 
     /**
@@ -389,6 +393,20 @@ class Dish
     public function getCategoryColor()
     {
         return self::getCategoriesColors()[$this->getCategory()];
+    }
+
+    /**
+     * Get status
+     * @return array
+     */
+    public static function getStatusArray()
+    {
+        return [
+            "Draft"         => self::STATUS_DRAFT,
+            "Accepted"      => self::STATUS_ACCEPTED,
+            "In validation" => self::STATUS_IN_VALIDATION,
+            "Refused"       => self::STATUS_REFUSED
+        ];
     }
 
     /**

@@ -2,38 +2,31 @@
 
 namespace DamDan\AppBundle\Form;
 
-use DamDan\AppBundle\Entity\Reservation;
+use DamDan\AppBundle\Entity\Allergen;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ReservationType extends AbstractType
+class AllergenType extends AbstractType
 {
+
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('date', DateTimeType::class, array(
-                'widget' => 'single_text',
-                'format' => DateTimeType::HTML5_FORMAT,
-                'model_timezone' => 'Europe/London',
-            ))
-            ->add('seats')
-            ->add('email')
             ->add('name')
-            ->add('phone');
+        ;
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => Reservation::class
+            'data_class' => Allergen::class,
         ));
     }
 
@@ -42,7 +35,7 @@ class ReservationType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'damdan_appbundle_reservation';
+        return 'damdan_appbundle_allergen';
     }
 
 

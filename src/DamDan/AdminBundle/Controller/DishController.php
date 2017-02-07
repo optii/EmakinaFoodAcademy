@@ -3,6 +3,8 @@
 namespace DamDan\AdminBundle\Controller;
 
 use DamDan\AppBundle\Entity\Dish;
+use DamDan\AppBundle\Form\AllergenType;
+use DamDan\AppBundle\Form\DishType;
 use DamDan\UserBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -45,7 +47,7 @@ class DishController extends Controller
     public function newAction(Request $request)
     {
         $dish = new Dish();
-        $form = $this->createForm($this->get('damdan.form.type.dish'), $dish);
+        $form = $this->createForm(DishType::class, $dish);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -62,9 +64,15 @@ class DishController extends Controller
             return $this->redirectToRoute('admin_dish_show', array('id' => $dish->getId()));
         }
 
+        $allergenForm = $this->createForm(AllergenType::class, null, [
+            'action' => $this->generateUrl('admin_allergen_new'),
+            'method' => 'POST',
+        ]);
+
         return $this->render('DamDanAdminBundle:dish:new.html.twig', array(
             'dish' => $dish,
             'form' => $form->createView(),
+            'allergen_form' => $allergenForm->createView()
         ));
     }
 
@@ -94,7 +102,7 @@ class DishController extends Controller
     public function editAction(Request $request, Dish $dish)
     {
         $deleteForm = $this->createDeleteForm($dish);
-        $editForm = $this->createForm($this->get('damdan.form.type.dish'), $dish);
+        $editForm = $this->createForm(DishType::class, $dish);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -109,10 +117,17 @@ class DishController extends Controller
             return $this->redirectToRoute('admin_dish_edit', array('id' => $dish->getId()));
         }
 
+        $allergenForm = $this->createForm(AllergenType::class, null, [
+            'action' => $this->generateUrl('admin_allergen_new'),
+            'method' => 'POST',
+        ]);
+
+
         return $this->render('DamDanAdminBundle:dish:edit.html.twig', array(
             'dish' => $dish,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'allergen_form' => $allergenForm->createView()
         ));
     }
 

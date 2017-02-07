@@ -3,6 +3,7 @@
 namespace DamDan\AdminBundle\Controller;
 
 use DamDan\AppBundle\Entity\Menu;
+use DamDan\AppBundle\Form\MenuType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -43,7 +44,7 @@ class MenuController extends Controller
     public function newAction(Request $request)
     {
         $menu = new Menu();
-        $form = $this->createForm($this->get('damdan.form.type.menu'), $menu);
+        $form = $this->createForm(MenuType::class, $menu);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -92,7 +93,7 @@ class MenuController extends Controller
     public function editAction(Request $request, Menu $menu)
     {
         $deleteForm = $this->createDeleteForm($menu);
-        $editForm = $this->createForm($this->get('damdan.form.type.menu'), $menu);
+        $editForm = $this->createForm(MenuType::class, $menu);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -166,10 +167,6 @@ class MenuController extends Controller
             ->setSubject(sprintf('[MENU REVIEW] %s needs reviewing - {emakina food academy}', $menu->getTitle()))
             ->setBody($this->render('DamDanAdminBundle:emails:menu_review.html.twig', array('menu' => $menu)),
                 'text/html'
-            )
-            ->addPart(
-                $this->render('DamDanAdminBundle:emails:menu_review.txt.twig', array('menu' => $menu)),
-                'text/plain'
             );
 
         $this->get('mailer')->send($message);
