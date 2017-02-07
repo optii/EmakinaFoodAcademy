@@ -1,6 +1,7 @@
 <?php
 
 namespace DamDan\UserBundle\Repository;
+use DamDan\UserBundle\Entity\User;
 
 /**
  * UserRepository
@@ -11,17 +12,21 @@ namespace DamDan\UserBundle\Repository;
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    public function findByRole($role){
+    public function findEmailsByRoles($roles){
+        if(is_string($roles)){
+           $roles = [$roles];
+        }
+
         $users = $this->findAll();
-        $usersWithRole = [];
+        $emails = [];
 
         foreach($users as $user){
-            if(in_array($role, $user->getRoles())){
-                $usersWithRole[] = $user;
+            if(!empty(array_intersect($roles, $user->getRoles()))){
+                $emails[] = $user->getEmail();
             }
         }
 
-        return $usersWithRole;
+        return $emails;
     }
 
 }

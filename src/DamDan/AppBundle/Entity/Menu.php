@@ -75,6 +75,7 @@ class Menu
     public function __construct()
     {
         $this->dishes = new ArrayCollection();
+        $this->status = self::STATUS_DRAFT;
     }
 
     /**

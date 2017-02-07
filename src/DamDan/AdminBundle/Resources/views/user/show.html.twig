@@ -4,7 +4,6 @@
     {{ breadcrumb({ 'home': 'home', 'admin_index': 'Admin', 'admin_user_index': 'users', 'admin_user_show': [user.username, {id: user.id}]}) }}
 
     <h1 class="ui horizontal header divider">User</h1>
-
     <table class="ui definition table">
         <tbody>
         <tr>
@@ -25,11 +24,11 @@
         </tr>
         </tbody>
     </table>
+    {% if is_granted('ROLE_CHEF') %}
+        <a class="ui left floated button inverted orange" href="{{ path('admin_user_edit', { 'id': user.id }) }}">Edit</a>
 
-    <a class="ui left floated button inverted orange" href="{{ path('admin_user_edit', { 'id': user.id }) }}">Edit</a>
-
-    {{ form_start(delete_form) }}
-        <input class="ui left floated button inverted red" type="submit" value="Delete">
-    {{ form_end(delete_form) }}
-
+        {{ form_start(delete_form) }}
+            <input class="ui left floated button inverted red" type="submit" value="Delete">
+        {{ form_end(delete_form) }}
+    {% endif %}
 {% endblock %}

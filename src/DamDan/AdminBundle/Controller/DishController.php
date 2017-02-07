@@ -3,10 +3,13 @@
 namespace DamDan\AdminBundle\Controller;
 
 use DamDan\AppBundle\Entity\Dish;
+use DamDan\UserBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
 
 /**
  * Dish controller.
@@ -37,11 +40,12 @@ class DishController extends Controller
      *
      * @Route("/new", name="admin_dish_new")
      * @Method({"GET", "POST"})
+     * @Security("is_granted('ROLE_EDITOR')")
      */
     public function newAction(Request $request)
     {
         $dish = new Dish();
-        $form = $this->createForm('DamDan\AppBundle\Form\DishType', $dish);
+        $form = $this->createForm($this->get('damdan.form.type.dish'), $dish);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -49,6 +53,11 @@ class DishController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($dish);
             $em->flush($dish);
+
+            if($this->getUser()->hasRole('ROLE_EDITOR')){
+                $emails = $em->getRepository('DamDanUserBundle:User')->findEmailsByRoles([User::ROLE_CHEF, User::ROLE_REVIEWER]);
+                $this->sendReviewEmail($dish, $emails);
+            }
 
             return $this->redirectToRoute('admin_dish_show', array('id' => $dish->getId()));
         }
@@ -80,15 +89,22 @@ class DishController extends Controller
      *
      * @Route("/{id}/edit", name="admin_dish_edit")
      * @Method({"GET", "POST"})
+     * @Security("is_granted('ROLE_EDITOR')")
      */
     public function editAction(Request $request, Dish $dish)
     {
         $deleteForm = $this->createDeleteForm($dish);
-        $editForm = $this->createForm('DamDan\AppBundle\Form\DishType', $dish);
+        $editForm = $this->createForm($this->get('damdan.form.type.dish'), $dish);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            if($this->getUser()->hasRole('ROLE_EDITOR')){
+                $emails = $em->getRepository('DamDanUserBundle:User')->findEmailsByRoles([User::ROLE_CHEF, User::ROLE_REVIEWER]);
+                $this->sendReviewEmail($dish, $emails);
+            }
 
             return $this->redirectToRoute('admin_dish_edit', array('id' => $dish->getId()));
         }
@@ -105,6 +121,7 @@ class DishController extends Controller
      *
      * @Route("/{id}", name="admin_dish_delete")
      * @Method("DELETE")
+     * @Security("is_granted('ROLE_CHEF')")
      */
     public function deleteAction(Request $request, Dish $dish)
     {
@@ -134,5 +151,28 @@ class DishController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    /**
+     * Sends the review email
+     *
+     * @param Dish $dish
+     * @param $emails
+     */
+    private function sendReviewEmail(Dish $dish, $emails)
+    {
+        $message = \Swift_Message::newInstance()
+            ->setFrom($this->getUser()->getEmail())
+            ->setTo($emails)
+            ->setSubject(sprintf('[DISH REVIEW] %s needs reviewing - {emakina food academy}', $dish->getTitle()))
+            ->setBody($this->render('DamDanAdminBundle:emails:dish_review.html.twig', array('dish' => $dish)),
+                'text/html'
+            )
+            ->addPart(
+                $this->render('DamDanAdminBundle:emails:dish_review.txt.twig', array('dish' => $dish)),
+                'text/plain'
+            );
+
+        $this->get('mailer')->send($message);
     }
 }
