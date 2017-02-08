@@ -1,6 +1,6 @@
 <?php
 
-namespace DamDan\AppBundle\Form;
+namespace DamDan\AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;

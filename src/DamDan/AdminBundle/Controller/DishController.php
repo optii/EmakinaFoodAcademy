@@ -3,8 +3,8 @@
 namespace DamDan\AdminBundle\Controller;
 
 use DamDan\AppBundle\Entity\Dish;
-use DamDan\AppBundle\Form\AllergenType;
-use DamDan\AppBundle\Form\DishType;
+use DamDan\AppBundle\Form\Type\AllergenType;
+use DamDan\AppBundle\Form\Type\DishType;
 use DamDan\UserBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;

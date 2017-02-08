@@ -1,6 +1,6 @@
 <?php
 
-namespace DamDan\UserBundle\Form;
+namespace DamDan\UserBundle\Form\Type;
 
 use DamDan\UserBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
