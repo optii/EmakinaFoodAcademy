@@ -1,6 +1,6 @@
 <?php
 
-namespace DamDan\AppBundle\Form;
+namespace DamDan\AppBundle\Form\Type;
 
 use DamDan\AppBundle\Entity\Dish;
 use DamDan\AppBundle\Entity\Menu;

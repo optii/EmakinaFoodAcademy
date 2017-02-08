@@ -1,14 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Daniel Cole
- * Date: 31/01/2017
- * Time: 14:33
- */
 
 namespace DamDan\UserBundle\Command;
 
-use DamDan\UserBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
