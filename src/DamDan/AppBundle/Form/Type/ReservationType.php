@@ -2,6 +2,7 @@
 
 namespace DamDan\AppBundle\Form\Type;
 
+use DamDan\AppBundle\Entity\Reservation;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,7 +19,6 @@ class ReservationType extends AbstractType
             ->add('date', DateTimeType::class, array(
                 'widget' => 'single_text',
                 'format' => DateTimeType::HTML5_FORMAT,
-                'model_timezone' => 'Europe/London',
             ))
             ->add('seats')
             ->add('email')

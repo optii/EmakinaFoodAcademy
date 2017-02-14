@@ -31,7 +31,7 @@ class ImageUploadListener
     public function preUpdate(PreUpdateEventArgs $args)
     {
         $entity = $args->getEntity();
-
+        dump($entity);
         $this->uploadFile($entity);
     }
 
@@ -42,12 +42,15 @@ class ImageUploadListener
      */
     private function uploadFile($entity)
     {
+
         // upload only works for Dish entities
         if (!$entity instanceof Dish) {
             return;
         }
 
         $file = $entity->getFile();
+
+
 
         // only upload new files
         if (!$file instanceof UploadedFile) {

@@ -2,6 +2,7 @@
 
 namespace DamDan\AdminBundle\Controller;
 
+use DamDan\AppBundle\Services\Paginator;
 use DamDan\UserBundle\Entity\User;
 use DamDan\UserBundle\Form\Type\UserType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -23,14 +24,16 @@ class UserController extends Controller
      * @Route("/", name="admin_user_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $users = $em->getRepository('DamDanUserBundle:User')->findAll();
 
+        $paginator = new Paginator($users, 10, $request->query->get('page', 1));
+
         return $this->render('DamDanAdminBundle:user:index.html.twig', array(
-            'users' => $users,
+            'users' => $paginator
         ));
     }
 

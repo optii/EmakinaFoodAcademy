@@ -17,13 +17,15 @@ services:
             class: DamDan\AppBundle\Services\FileUploader
             arguments: ['%dandam_app.upload_dir%']
 
+    damdan.paginator:
+            class: DamDan\AppBundle\Services\Paginator
+
     damdan.doctrine_dish_listener:
             class: DamDan\AppBundle\EventListener\ImageUploadListener
             arguments: ['@damdan.image_uploader']
             tags:
                 - { name: doctrine.event_listener, event: prePersist }
                 - { name: doctrine.event_listener, event: preUpdate }
-
 
     damdan.reservation.listener:
             class: DamDan\AppBundle\EventListener\ReservationSubscriber
@@ -32,13 +34,13 @@ services:
                 - { name: doctrine.event_subscriber, connection: default }
 
     damdan.form.type.dish:
-            class: DamDan\AppBundle\Form\DishType
+            class: DamDan\AppBundle\Form\Type\DishType
             arguments: ["@security.authorization_checker"]
             tags:
                 - { name: form.type, alias: damdan_dish_type }
 
     damdan.form.type.menu:
-                class: DamDan\AppBundle\Form\MenuType
+                class: DamDan\AppBundle\Form\Type\MenuType
                 arguments: ["@security.authorization_checker"]
                 tags:
                     - { name: form.type, alias: damdan_menu_type }

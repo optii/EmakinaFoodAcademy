@@ -3,7 +3,9 @@
 namespace DamDan\AdminBundle\Controller;
 
 use DamDan\AppBundle\Entity\Menu;
+use DamDan\AppBundle\Services\Paginator;
 use DamDan\AppBundle\Form\Type\MenuType;
+use DamDan\UserBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -23,14 +25,16 @@ class MenuController extends Controller
      * @Route("/", name="admin_menu_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $menus = $em->getRepository('DamDanAppBundle:Menu')->findAll();
 
+        $paginator = new Paginator($menus, 10, $request->query->get('page', 1));
+
         return $this->render('DamDanAdminBundle:menu:index.html.twig', array(
-            'menus' => $menus,
+            'menus' => $paginator,
         ));
     }
 

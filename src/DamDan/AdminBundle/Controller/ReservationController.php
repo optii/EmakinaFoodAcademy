@@ -9,6 +9,7 @@
 namespace DamDan\AdminBundle\Controller;
 
 use DamDan\AppBundle\Entity\Reservation;
+use DamDan\AppBundle\Services\Paginator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -29,23 +30,26 @@ class ReservationController extends Controller
      * @Method("GET")
      * @Security("is_granted('ROLE_SERVER')")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $nbUnconfirmed = 0;
         $em = $this->getDoctrine()->getManager();
 
         $reservations = $em->getRepository('DamDanAppBundle:Reservation')->findBy(array(), array('id' => 'DESC'));
 
+        $paginator = new Paginator($reservations, 10, $request->query->get('page', 1));
+
         foreach ($reservations as $reservation){
             if($reservation->getAccepted() == Reservation::STATUS_PENDING){
                 ++$nbUnconfirmed;
             }
         }
+
         if($nbUnconfirmed > 0) {
             $this->addFlash('warning', 'You have '.$nbUnconfirmed.' unconfirmed reservation(s)');
         }
         return $this->render('DamDanAdminBundle:reservation:index.html.twig', array(
-            'reservations' => $reservations,
+            'paginator' => $paginator
         ));
     }
 

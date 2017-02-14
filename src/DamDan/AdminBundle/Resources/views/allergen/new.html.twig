@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ breadcrumb({'home': 'home', 'admin_index': 'admin', 'admin_allergen_index': 'allergen', 'admin_allergen_new': 'new'}) }}
+
+    <h1 class="ui horizontal header divider">Allergen creation</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input class="ui inverted green button" type="submit" value="Create"/>
+    {{ form_end(form) }}
+
+{% endblock %}

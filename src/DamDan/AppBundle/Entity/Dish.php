@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="dish")
  * @ORM\Entity(repositoryClass="DamDan\AppBundle\Repository\DishRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Dish
 {
@@ -89,14 +90,12 @@ class Dish
      * Many Features have One Product.
      * @ORM\ManyToOne(targetEntity="DamDan\UserBundle\Entity\User", inversedBy="dishes")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     * @Assert\NotBlank()
      */
     private $author;
 
     /**
      * @var string
      *
-     * @Assert\NotBlank()
      * @ORM\Column(name="image", type="string", length=255)
      */
     private $image;
@@ -121,6 +120,13 @@ class Dish
      */
     private $menus;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\COlumn(name="updated_at", type="datetime")
+     */
+    private $updatedAt;
+
     public function __construct()
     {
         $this->allergens = new ArrayCollection();
@@ -143,7 +149,7 @@ class Dish
     public function setFile($file)
     {
         $this->file = $file;
-
+        $this->setUpdatedAt(new \DateTime());
         return $this;
     }
 
@@ -401,6 +407,33 @@ class Dish
     public function getCategoryColor()
     {
         return self::getCategoriesColors()[$this->getCategory()];
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime $updatedAt
+     * @return $this
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PreUpdate()
+     * @ORM\PrePersist()
+     */
+    public function preUpdate(){
+        $this->setUpdatedAt(new \DateTime());
     }
 
     /**
