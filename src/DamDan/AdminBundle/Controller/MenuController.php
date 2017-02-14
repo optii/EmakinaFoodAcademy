@@ -4,6 +4,7 @@ namespace DamDan\AdminBundle\Controller;
 
 use DamDan\AppBundle\Entity\Menu;
 use DamDan\AppBundle\Form\Type\MenuType;
+use DamDan\UserBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;

@@ -21,13 +21,40 @@
         <a href="{{ path('reservation_new') }}" class="item">Book</a>
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <div class="right menu">
-                <div class="ui simple dropdown item">
-                    Admin <i class="dropdown icon"></i>
+                <div class="ui dropdown link item">
+                    <span class="text"> {{ app.user.username|capitalize }}&nbsp; <i style="font-size: 0.8em">( {{ app.user.roleNames|join(',') }} )</i></span>
+                    <i class="dropdown icon"></i>
                     <div class="menu">
-                        <a class="item" href="{{ path('admin_index') }}">Home</a>
+                        <div class="item">
+                            <i class="dropdown icon"></i>
+                            <span class="text">Administration</span>
+                            <div class="left menu">
+                                <div class="header">Menus</div>
+                                <a class="item" href="{{ path('admin_menu_index') }}">View</a>
+                                {% if is_granted('ROLE_EDITOR') %}
+                                    <a class="item" href="{{ path('admin_menu_new') }}">New</a>
+                                {% endif %}
+                                <div class="divider"></div>
+                                <div class="header">Dishes</div>
+                                <a class="item" href="{{ path('admin_dish_index') }}">View</a>
+                                {% if is_granted('ROLE_EDITOR') %}
+                                    <a class="item" href="{{ path('admin_dish_new') }}">New</a>
+                                {% endif %}
+                                <div class="divider"></div>
+                                {% if is_granted('ROLE_SERVER') %}
+                                    <div class="header">Reservations</div>
+                                    <a class="item" href="{{ path('admin_reservation_index') }}">View</a>
+                                {% endif %}
+                                <div class="divider"></div>
+                                <div class="header">Users</div>
+                                <a class="item" href="{{ path('admin_user_index') }}">View</a>
+                                {% if is_granted('ROLE_CHEF') %}<a class="item" href="{{ path('admin_user_new') }}">New</a>{% endif %}
+                            </div>
+                        </div>
+                        <div class="divider"></div>
+                        <a class="item" href="{{ path('dam_dan_user_logout') }}">Logout</a>
                     </div>
                 </div>
-                <a class="item" href="{{ path('dam_dan_user_logout') }}">Logout</a>
             </div>
         {% endif %}
 
@@ -120,13 +147,28 @@
             formatter: {
                 datetime: function(date, settings){
                     if(!date) return '';
-                    console.log(date.toISOString());
-                    return date.toISOString();
+                    return formatLocalDate(date);
                 }
             }
         });
-        $('.ui.dropdown').dropdown();
-        $('.ui.calendar').calendar();
+
+        function formatLocalDate(date) {
+            var now = date,
+                    tzo = -now.getTimezoneOffset(),
+                    dif = tzo >= 0 ? '+' : '-',
+                    pad = function(num) {
+                        var norm = Math.abs(Math.floor(num));
+                        return (norm < 10 ? '0' : '') + norm;
+                    };
+            return now.getFullYear()
+                    + '-' + pad(now.getMonth()+1)
+                    + '-' + pad(now.getDate())
+                    + 'T' + pad(now.getHours())
+                    + ':' + pad(now.getMinutes())
+                    + ':' + pad(now.getSeconds())
+                    + dif + pad(tzo / 60)
+                    + ':' + pad(tzo % 60);
+        }
     </script>
 {% endblock %}
 </body>
