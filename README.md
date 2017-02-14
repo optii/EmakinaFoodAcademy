@@ -17,6 +17,12 @@ Finally set up the database
 php bin/console doctrine:database:create
 php bin/console doctrine:schema:update --force
 ```
+# BO
+
+You can access the back office view the following link:
+
+[http://localhost/EmakinaFoodAcademy/admin](http://localhost/EmakinaFoodAcademy/admin)
+
 ## Create User
 
 To create a user execute the following command:
