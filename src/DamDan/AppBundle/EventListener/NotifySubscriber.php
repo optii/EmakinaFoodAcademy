@@ -12,7 +12,6 @@ use DamDan\AppBundle\Entity\Dish;
 use DamDan\AppBundle\Entity\Menu;
 use DamDan\UserBundle\Entity\User;
 use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Bundle\TwigBundle\TwigEngine;
