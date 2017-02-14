@@ -7,19 +7,3 @@
         {% endfor %}
     </div>
 {% endblock %}
-{% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('.slider').slick({
-                autoplay: true,
-                nextArrow: false,
-                prevArrow: false,
-            });
-
-            $('.menus .image').dimmer({
-                on: 'hover'
-            });
-        });
-    </script>
-{% endblock %}
