@@ -28,10 +28,10 @@
                 <td>
                     {% if reservation.accepted == 0 %}
                         <form style="display:inline-block" method="post" action="{{ path('accept_reservation', {'id': reservation.id}) }}">
-                            <button class="ui green inverted button">Accept</button>
+                            <button class="ui green inverted button icon" data-tooltip="Accept" data-inverted="" ><i class="icon checkmark"></i></button>
                         </form>
                         <form style="display:inline-block" method="post" action="{{ path('refuse_reservation', {'id': reservation.id}) }}">
-                            <button class="ui red inverted button">Refuse</button>
+                            <button class="ui red inverted button icon" data-tooltip="Refuse" data-inverted="" ><i class="icon remove"></i></button>
                         </form>
                     {% elseif reservation.accepted == 1 %}
                         <span class="ui green tag label">Accepted</span>

@@ -18,4 +18,12 @@ class MenuRepository extends \Doctrine\ORM\EntityRepository
             ->groupBy('m.id')
            ->getQuery()->getResult();
     }
+
+    public function findByNotStatus($status){
+        $qb = $this->createQueryBuilder('m');
+        return $qb->select('m')
+            ->where($qb->expr()->notIn('m.status', [$status]))
+            ->getQuery()
+            ->getResult();
+    }
 }

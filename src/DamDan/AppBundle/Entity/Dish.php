@@ -2,6 +2,7 @@
 
 namespace DamDan\AppBundle\Entity;
 
+use DamDan\UserBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -81,13 +82,14 @@ class Dish
     /**
      * @var bool
      *
-     * @Assert\NotBlank()
      * @ORM\Column(name="homeMade", type="boolean")
      */
     private $homeMade;
 
     /**
      * Many Features have One Product.
+     * @var User
+     *
      * @ORM\ManyToOne(targetEntity="DamDan\UserBundle\Entity\User", inversedBy="dishes")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
@@ -325,7 +327,7 @@ class Dish
     }
 
     /**
-     * @return mixed
+     * @return User
      */
     public function getAuthor()
     {
@@ -333,9 +335,9 @@ class Dish
     }
 
     /**
-     * @param mixed $author
+     * @param User $author
      */
-    public function setAuthor($author)
+    public function setAuthor(User $author)
     {
         $this->author = $author;
     }

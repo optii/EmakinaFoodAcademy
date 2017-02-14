@@ -67,7 +67,6 @@ class Menu
      * One author has many menus.
      * @ORM\ManyToOne(targetEntity="DamDan\UserBundle\Entity\User", inversedBy="menus")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     * @Assert\NotBlank()
      */
     private $author;
 

@@ -10,4 +10,11 @@ namespace DamDan\AppBundle\Repository;
  */
 class DishRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findByNotStatus($status){
+        $qb = $this->createQueryBuilder('d');
+        return $qb->select('d')
+            ->where($qb->expr()->notIn('d.status', [$status]))
+            ->getQuery()
+            ->getResult();
+    }
 }

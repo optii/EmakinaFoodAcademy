@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    {{ breadcrumb({'home': 'home',  'admin_index': 'admin', 'admin_dish_index': 'dishes'}) }}
-    <h1 class="ui horizontal header divider">Dishes</h1>
-    <p>Bellow is a list of dishes that are not drafts</p>
+    {{ breadcrumb({'home': 'home',  'admin_index': 'admin', 'admin_dish_index': 'my drafts'}) }}
+    <h1 class="ui horizontal header divider">My Draft Dishes</h1>
+    <p>Bellow is a list of your draft dishes</p>
     <table class="ui table">
         <thead>
         <tr>
@@ -22,7 +22,7 @@
         {% for dish in dishes %}
             <tr>
                 <td><a href="{{ path('admin_dish_show', { 'id': dish.id }) }}">{{ dish.id }}</a></td>
-                <td><img class="ui image small" src="{{ asset('img/uploads/' ~ dish.image) }}" /></td>
+                <td><img class="ui image tiny" src="{{ asset('img/uploads/' ~ dish.image) }}" /></td>
                 <td>{{ dish.title }}</td>
                 <td>{{ dish.description }}</td>
                 <td>{{ dish.author }}</td>
@@ -34,8 +34,9 @@
                     <a class="ui inverted button icon small blue" data-tooltip="View" data-inverted="" href="{{ path('admin_dish_show', { 'id': dish.id }) }}"><i class="icon unhide"></i></a>
                     {% if is_granted('ROLE_EDITOR') %}
 
-                        <a class="ui inverted icon button small orange" data-tooltip="Edit" data-inverted="" href="{{ path('admin_dish_edit', { 'id': dish.id }) }}"><i class="icon edit"></i></a>
+                    <a class="ui inverted icon button small orange" data-tooltip="Edit" data-inverted="" href="{{ path('admin_dish_edit', { 'id': dish.id }) }}"><i class="icon edit"></i></a>
                     {% endif %}
+                    {{ render(controller('DamDanAdminBundle:Dish:publish', { 'dish': dish })) }}
                 </td>
             </tr>
         {% endfor %}
@@ -43,9 +44,8 @@
     </table>
     {% include 'DamDanAdminBundle:pagination:pagination.html.twig' with {'paginator': dishes} %}
     {% if is_granted('ROLE_EDITOR') %}
-        <a class="ui inverted button icon green" href="{{ path('admin_dish_new') }}"><i class="ui icon plus" ></i>New</a>
-        <a class="ui inverted button icon blue" href="{{ path('admin_allergen_index') }}"><i class="icon unhide"></i> Allergens</a>
+        <a class="ui inverted button green" href="{{ path('admin_dish_new') }}"><i class="ui icon plus" ></i>Create a new dish</a>
+        <a class="ui inverted button blue" href="{{ path('admin_allergen_index') }}">View allergens</a>
     {% endif %}
-    <a class="ui inverted button blue" href="{{ path('admin_dish_draft') }}">My Drafts</a>
 
 {% endblock %}
