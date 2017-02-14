@@ -1,6 +1,8 @@
 EmakinaFoodAcademy
 ==================
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/a69a1b02-518c-40f7-b217-bd3e88daeb62/big.png)](https://insight.sensiolabs.com/projects/a69a1b02-518c-40f7-b217-bd3e88daeb62)
+
 ## Installation
  First clone the repository
  
