@@ -13,6 +13,7 @@ use DamDan\AppBundle\Entity\Menu;
 use DamDan\UserBundle\Entity\User;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Bundle\TwigBundle\TwigEngine;
 
@@ -42,7 +43,7 @@ class NotifySubscriber implements EventSubscriber
         $object = $eventArgs->getObject();
 
         if ($object instanceof Dish) {
-            $message = $this->initializeMessage($eventArgs->getEntityManager());
+            $message = $this->initializeMessage($eventArgs->getEntityManager()->getRepository('DamDanUserBundle:User'));
             $message
                 ->setSubject(sprintf('NEW DISH %s - {emakina food academy}', $object->__toString()))
                 ->setBody($this->templating->render('DamDanAppBundle:Emails:dish_alert.html.twig', array('dish' => $object)),
@@ -58,7 +59,7 @@ class NotifySubscriber implements EventSubscriber
         }
 
         if ($object instanceof Menu) {
-            $message = $this->initializeMessage($eventArgs->getEntityManager());
+            $message = $this->initializeMessage($eventArgs->getEntityManager()->getRepository('DamDanUserBundle:User'));
             $message
                 ->setSubject(sprintf('NEW MENU %s - {emakina food academy}', $object->__toString()))
                 ->setBody($this->templating->render('DamDanAppBundle:Emails:menu_alert.html.twig', array('menu' => $object)),
@@ -75,12 +76,12 @@ class NotifySubscriber implements EventSubscriber
     }
 
     /**
-     * @param EntityManager $em
+     * @param EntityRepository $userRepository
      * @return \Swift_Message $message
      */
-    private function initializeMessage(EntityManager $em)
+    private function initializeMessage(EntityRepository $userRepository)
     {
-        $emails = $em->getRepository('DamDanUserBundle:User')->findEmailsByRoles(User::ROLE_SERVER);
+        $emails = $userRepository->findEmailsByRoles(User::ROLE_SERVER);
         $message = \Swift_Message::newInstance()
             ->setFrom($this->sender)
             ->setTo($emails);

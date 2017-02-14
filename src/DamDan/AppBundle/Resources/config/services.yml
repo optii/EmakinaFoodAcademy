@@ -1,4 +1,10 @@
 services:
+    acme_customer.customer_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - DamDan\AppBundle\Entity\Customer
+
     damdan.breadcrumb_extension:
         class: DamDan\AppBundle\Twig\BreadcrumbExtension
         public: false
