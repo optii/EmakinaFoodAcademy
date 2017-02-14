@@ -23,9 +23,9 @@
                 <td>{{ user.email }}</td>
                 <td>{% if user.roles %}{{ user.roleNames|join(', ') }}{% endif %}</td>
                 <td>
-                    <a class="ui button inverted blue" href="{{ path('admin_user_show', { 'id': user.id }) }}">show</a>
+                    <a class="ui button inverted blue icon" data-tooltip="View" data-inverted="" href="{{ path('admin_user_show', { 'id': user.id }) }}"><i class="icon unhide"></i></a>
                     {% if is_granted('ROLE_CHEF') %}
-                        <a class="ui button inverted orange" href="{{ path('admin_user_edit', { 'id': user.id }) }}">edit</a>
+                        <a class="ui button inverted orange icon" data-tooltip="Edit" data-inverted="" href="{{ path('admin_user_edit', { 'id': user.id }) }}"><i class="icon edit"></i></a>
                     {% endif %}
                 </td>
             </tr>
@@ -34,6 +34,6 @@
     </table>
     {% include 'DamDanAdminBundle:pagination:pagination.html.twig' with {'paginator': users} %}
     {% if is_granted('ROLE_CHEF') %}
-        <a class="ui button inverted green" href="{{ path('admin_user_new') }}">Create a new user</a>
+        <a class="ui button inverted green" href="{{ path('admin_user_new') }}"><i class="icon plus"></i> New</a>
     {% endif %}
 {% endblock %}

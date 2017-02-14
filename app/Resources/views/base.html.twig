@@ -52,6 +52,8 @@
                                 {% if is_granted('ROLE_CHEF') %}<a class="item" href="{{ path('admin_user_new') }}">New</a>{% endif %}
                             </div>
                         </div>
+                        <a class="item" href="{{ path('admin_dish_draft') }}">My Dishes</a>
+                        <a class="item" href="{{ path('admin_menu_draft') }}">My Menus</a>
                         <div class="divider"></div>
                         <a class="item" href="{{ path('dam_dan_user_logout') }}">Logout</a>
                     </div>

@@ -31,13 +31,61 @@ class DishController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $dishes = $em->getRepository('DamDanAppBundle:Dish')->findAll();
-
+        $dishes = $em->getRepository('DamDanAppBundle:Dish')->findByNotStatus(Dish::STATUS_DRAFT);
         $paginator = new Paginator($dishes, 10, $request->query->get('page', 1));
 
         return $this->render('DamDanAdminBundle:dish:index.html.twig', array(
+            'dishes' => $paginator
+        ));
+    }
+
+    /**
+     * Lists all draft dish entities.
+     *
+     * @Route("/drafts", name="admin_dish_draft")
+     * @Method("GET")
+     */
+    public function draftAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $dishes = $em->getRepository('DamDanAppBundle:Dish')->findBy(array('status' => Dish::STATUS_DRAFT, 'author' => $this->getUser()));
+        $paginator = new Paginator($dishes, 10, $request->query->get('page', 1));
+
+        return $this->render('DamDanAdminBundle:dish:drafts.html.twig', array(
             'dishes' => $paginator,
         ));
+    }
+
+
+    /**
+     * @Route("/publish/{id}", name="admin_dish_publish")
+     * @Method({"GET", "POST"})
+     */
+    public function publishAction(Request $request, Dish $dish){
+        $form = $this->createPublishForm($dish);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            if($dish->getAuthor() != $this->getUser()){
+                return $this->createAccessDeniedException('You can\'t publish someone else\'s dish');
+            }
+
+            if($dish->getStatus() != Dish::STATUS_DRAFT){
+                return $this->createNotFoundException("Draft menu not found");
+            }
+
+            $dish->setStatus(Dish::STATUS_IN_VALIDATION);
+            $em->persist($dish);
+            $em->flush();
+
+            $this->addFlash('success', 'Your dish has been published for validation');
+            return $this->redirectToRoute('admin_dish_draft');
+        }
+
+
+        return $this->render('DamDanAdminBundle:dish:publish.html.twig', array('form' => $form->createView()));
     }
 
     /**
@@ -167,6 +215,20 @@ class DishController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_dish_delete', array('id' => $dish->getId())))
             ->setMethod('DELETE')
+            ->getForm()
+        ;
+    }
+
+    /**
+     * Creates a form to publish the dish
+     *
+     * @param Dish $dish
+     * @return \Symfony\Component\Form\Form|\Symfony\Component\Form\FormInterface
+     */
+    private function createPublishForm(Dish $dish){
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('admin_dish_publish', array('id' => $dish->getId())))
+            ->setMethod('POST')
             ->getForm()
         ;
     }

@@ -25,7 +25,7 @@
         </tbody>
     </table>
     {% if is_granted('ROLE_CHEF') %}
-        <a class="ui left floated button inverted orange" href="{{ path('admin_user_edit', { 'id': user.id }) }}">Edit</a>
+        <a class="ui left floated button inverted orange icon" data-tooltip="Edit" data-inverted="" href="{{ path('admin_user_edit', { 'id': user.id }) }}"><i class="icon edit"></i></a>
 
         {{ form_start(delete_form) }}
             <input class="ui left floated button inverted red" type="submit" value="Delete">

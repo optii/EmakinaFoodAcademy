@@ -45,6 +45,7 @@ class DishType extends AbstractType
                 'label' => false,
                 'class'    => Allergen::class,
                 'multiple' => true,
+                'required' => false,
                 'by_reference' => false,
 
             ))
