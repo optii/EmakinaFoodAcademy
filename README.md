@@ -17,7 +17,7 @@ Finally set up the database
 php bin/console doctrine:database:create
 php bin/console doctrine:schema:update --force
 ```
-# BO
+## BO
 
 You can access the back office view the following link:
 
