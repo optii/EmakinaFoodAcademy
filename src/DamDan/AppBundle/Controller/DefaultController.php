@@ -25,4 +25,25 @@ class DefaultController extends Controller
 
         return $this->render('DamDanAppBundle:Default:index.html.twig', array('menus' => $menus, 'dishes' => $dishes));
     }
+
+    /**
+     * @Route("/conditions", name="conditions")
+     */
+     public function conditionsAction(){
+        return $this->render("DamDanAppBundle:Default:conditions.html.twig");
+     }
+
+    /**
+     * @Route("/privacy", name="privacy")
+     */
+    public function privacyAction(){
+        return $this->render("DamDanAppBundle:Default:privacy.html.twig");
+    }
+
+    /**
+     * @Route("/contact", name="contact")
+     */
+    public function contactAction(){
+        return $this->render("DamDanAppBundle:Default:contact.html.twig");
+    }
 }
