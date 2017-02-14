@@ -38,18 +38,4 @@
         </div>
         {% endif %}
     {% endfor %}
-
-{% endblock %}
-{% block javascripts %}
-{{ parent() }}
-    <script>
-        $(document).ready(function () {
-            $('.slider').slick({
-                autoplay: true,
-                nextArrow: false,
-                prevArrow: false,
-                adaptiveHeight: true
-            });
-        });
-    </script>
 {% endblock %}

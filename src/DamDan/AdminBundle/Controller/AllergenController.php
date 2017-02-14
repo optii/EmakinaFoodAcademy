@@ -4,6 +4,7 @@ namespace DamDan\AdminBundle\Controller;
 
 use DamDan\AppBundle\Entity\Allergen;
 use DamDan\AppBundle\Form\Type\AllergenType;
+use DamDan\AppBundle\Services\Paginator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -29,7 +30,9 @@ class AllergenController extends Controller
             return $this->json($allergens);
         }
 
-        return $this->render('DamDanAdminBundle:allergen:index.html.twig', array('allergens' => $allergens));
+        $paginator = new Paginator($allergens, 10, $request->query->get('page', 1));
+
+        return $this->render('DamDanAdminBundle:allergen:index.html.twig', array('allergens' => $paginator));
     }
 
     /**

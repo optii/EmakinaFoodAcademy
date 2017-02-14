@@ -29,7 +29,7 @@
         </tbody>
     </table>
     {% if is_granted('ROLE_EDITOR') %}
-    <a class="ui left floated inverted button orange" href="{{ path('admin_menu_edit', { 'id': menu.id }) }}">Edit</a>
+    <a class="ui left floated inverted button orange icon" data-tooltip="Edit" data-inverted="" href="{{ path('admin_menu_edit', { 'id': menu.id }) }}"><i class="icon edit"></i></a>
     {% endif %}
     {% if is_granted('ROLE_CHEF') %}
         {{ form_start(delete_form) }}

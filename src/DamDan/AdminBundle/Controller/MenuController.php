@@ -29,13 +29,62 @@ class MenuController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $menus = $em->getRepository('DamDanAppBundle:Menu')->findAll();
+        $menus = $em->getRepository('DamDanAppBundle:Menu')->findByNotStatus(Menu::STATUS_DRAFT);
 
         $paginator = new Paginator($menus, 10, $request->query->get('page', 1));
 
         return $this->render('DamDanAdminBundle:menu:index.html.twig', array(
             'menus' => $paginator,
         ));
+    }
+
+    /**
+     * Lists draft menu entities.
+     *
+     * @Route("/draft", name="admin_menu_draft")
+     * @Method("GET")
+     */
+    public function draftAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $menus = $em->getRepository('DamDanAppBundle:Menu')->findBy(array('status' => Menu::STATUS_DRAFT, 'author' => $this->getUser()));
+
+        $paginator = new Paginator($menus, 10, $request->query->get('page', 1));
+
+        return $this->render('DamDanAdminBundle:menu:drafts.html.twig', array(
+            'menus' => $paginator,
+        ));
+    }
+
+    /**
+     * @Route("/publish/{id}", name="admin_menu_publish")
+     * @Method("POST")
+     */
+    public function publishAction(Request $request, Menu $menu){
+        $form = $this->createPublishForm($menu);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            if($menu->getAuthor() != $this->getUser()){
+                return $this->createAccessDeniedException('You can\'t publish someone elses menu');
+            }
+
+            if($menu->getStatus() != Menu::STATUS_DRAFT){
+                return $this->createNotFoundException("Draft menu not found");
+            }
+
+            $menu->setStatus(Menu::STATUS_IN_VALIDATION);
+            $em->persist($menu);
+            $em->flush();
+
+            $this->addFlash('success', 'Your menu has been published for validation');
+            return $this->redirectToRoute('admin_menu_draft');
+        }
+
+
+        return $this->render('DamDanAdminBundle:menu:publish.html.twig', array('form' => $form->createView()));
     }
 
     /**
@@ -152,6 +201,20 @@ class MenuController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_menu_delete', array('id' => $menu->getId())))
             ->setMethod('DELETE')
+            ->getForm()
+        ;
+    }
+
+    /**
+     * Creates a form to publish the menu
+     *
+     * @param Menu $menu
+     * @return \Symfony\Component\Form\Form|\Symfony\Component\Form\FormInterface
+     */
+    private function createPublishForm(Menu $menu){
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('admin_menu_publish', array('id' => $menu->getId())))
+            ->setMethod('POST')
             ->getForm()
         ;
     }

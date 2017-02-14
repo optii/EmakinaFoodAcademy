@@ -46,7 +46,7 @@
         </tbody>
     </table>
     {% if is_granted('ROLE_EDITOR') %}
-        <a class="ui left floated button inverted orange" href="{{ path('admin_dish_edit', { 'id': dish.id }) }}">Edit</a>
+        <a class="ui left floated button inverted orange" data-tooltip="Edit" data-inverted="" href="{{ path('admin_dish_edit', { 'id': dish.id }) }}"><i class="icon edit"></i></a>
     {% endif %}
     {% if is_granted('ROLE_CHEF') %}
         {{ form_start(delete_form) }}

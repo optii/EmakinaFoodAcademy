@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ breadcrumb({ 'home': 'home', 'admin_index': 'admin', 'admin_menu_index': 'menus'}) }}
-    <h1 class="ui horizontal header divider">Menus</h1>
+    {{ breadcrumb({ 'home': 'home', 'admin_index': 'admin', 'admin_menu_index': 'my draft menus'}) }}
+    <h1 class="ui horizontal header divider">My Draft Menus</h1>
 
     <table class="ui table">
         <thead>
@@ -24,18 +24,15 @@
                 <td>{{ menu.price }}</td>
                 <td>{{ menu.author }}</td>
                 <td>{{ menu.order }}</td>
-                <td><span class="ui tag label
-                    {% if menu.status == constant('STATUS_ACCEPTED', menu) %}green{% endif %}
-                    {% if menu.status == constant('STATUS_REFUSED', menu) %}red{% endif %}
-                    {% if menu.status == constant('STATUS_IN_VALIDATION', menu) %}orange{% endif %}">
-                        {{ menu.statusName }}
-                    </span>
-                </td>
+                <td>{{ menu.statusName }}</td>
                 <td>
                     <a class="ui button inverted small blue icon" data-tooltip="View" data-inverted="" href="{{ path('admin_menu_show', { 'id': menu.id }) }}"><i class="icon unhide"></i></a>
                     {% if is_granted('ROLE_EDITOR') %}
                         <a class="ui button inverted small orange icon" data-tooltip="Edit" data-inverted="" href="{{ path('admin_menu_edit', { 'id': menu.id }) }}"><i class="icon edit"></i></a>
                     {% endif %}
+
+                    {{ render(controller('DamDanAdminBundle:Menu:publish', { 'menu': menu })) }}
+
                 </td>
             </tr>
         {% endfor %}
@@ -43,7 +40,6 @@
     </table>
     {% include 'DamDanAdminBundle:pagination:pagination.html.twig' with {'paginator': menus} %}
     {% if is_granted('ROLE_EDITOR') %}
-        <a class="ui button green inverted" href="{{ path('admin_menu_new') }}"><i class="ui icon plus"></i> New</a>
+        <a class="ui button green inverted" href="{{ path('admin_menu_new') }}"><i class="ui icon plus"></i> Menu</a>
     {% endif %}
-    <a href="{{ path('admin_menu_draft') }}" class="ui button inverted blue">My Drafts</a>
 {% endblock %}

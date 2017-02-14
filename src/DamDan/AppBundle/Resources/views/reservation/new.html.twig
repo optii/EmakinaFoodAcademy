@@ -4,7 +4,7 @@
 
     <h1 class="ui horizontal header divider">Table booking</h1>
 
-    <div class="ui basic modal">
+    <div class="ui basic reservation modal">
         <div class="content">
             <h1>Your reservation's recap</h1>
             <div class="ui list">
@@ -45,25 +45,6 @@
     {{ form_start(form) }}
         {{ form_widget(form) }}
     {{ form_end(form) }}
-    <button class="ui green button submit">I'm hungry !</button>
-
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        $('.submit').click(function(){
-            $('#modalDate').text($('#damdan_appbundle_reservation_date').val());
-            $('#modalPeople').text($('#damdan_appbundle_reservation_seats').val());
-            $('#modalMail').text($('#damdan_appbundle_reservation_email').val());
-            $('#modalName').text($('#damdan_appbundle_reservation_name').val());
-            $('#modalPhone').text($('#damdan_appbundle_reservation_phone').val());
-            $('.ui.basic.modal').modal('show');
-        });
-
-        $('.submitModal').click(function () {
-            $('form').trigger('submit');
-        });
-    </script>
+    <button id="reservation-submit" class="ui green button submit">I'm hungry !</button>
 
 {% endblock %}

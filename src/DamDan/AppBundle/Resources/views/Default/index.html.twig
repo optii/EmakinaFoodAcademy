@@ -16,7 +16,7 @@
     <h1 class="ui horizontal header divider">
         Some Of Our Dishes
     </h1>
-    <div class="ui three column grid">
+    <div class="ui three column grid dishes">
         {% for dish in dishes %}
             <div class="column">
               {{ include('DamDanAppBundle:dish:list_item.html.twig', {dish: dish}) }}
@@ -26,20 +26,4 @@
     <div class="ui basic segment text-center">
         <a class="ui button green" href="{{ path('dish_index') }}">View all our Dishes</a>
     </div>
-{% endblock %}
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        $(document).ready(function () {
-            $('.slider').slick({
-                autoplay: true,
-                nextArrow: false,
-                prevArrow: false,
-            });
-
-            $('.menus .image').dimmer({
-                on: 'hover'
-            });
-        });
-    </script>
 {% endblock %}

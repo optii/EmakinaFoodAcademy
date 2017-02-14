@@ -24,7 +24,7 @@
         {% endfor %}
         </tbody>
     </table>
-
+    {% include 'DamDanAdminBundle:pagination:pagination.html.twig' with {'paginator': allergens} %}
     {% if is_granted('ROLE_EDITOR') %}
         <a class="ui inverted button green" href="{{ path('admin_allergen_new') }}"><i class="ui icon plus" ></i>Create a new allergen</a>
     {% endif %}
