@@ -3,6 +3,7 @@
 namespace DamDan\AdminBundle\Controller;
 
 use DamDan\AppBundle\Entity\Dish;
+use DamDan\AppBundle\Services\Paginator;
 use DamDan\UserBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -24,14 +25,17 @@ class DishController extends Controller
      * @Route("/", name="admin_dish_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $dishes = $em->getRepository('DamDanAppBundle:Dish')->findAll();
 
+        $paginator = new Paginator($dishes, 10, $request->query->get('page', 1));
+
+        dump($paginator);
         return $this->render('DamDanAdminBundle:dish:index.html.twig', array(
-            'dishes' => $dishes,
+            'dishes' => $paginator,
         ));
     }
 

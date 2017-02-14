@@ -1,0 +1,13 @@
+{% if paginator.nbPages != 0 %}
+    <div class="ui centered grid">
+        <div class="center aligned column">
+            <div class="ui pagination menu">
+                {% for i in paginator.pages %}
+                    <a href="{{ path("admin_reservation_index", {'page': i})  }}" class="{% if i == paginator.currentPage %}active {% endif %} item">
+                        {{ i }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endif %}

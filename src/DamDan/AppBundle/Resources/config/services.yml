@@ -17,6 +17,9 @@ services:
             class: DamDan\AppBundle\Services\FileUploader
             arguments: ['%dandam_app.upload_dir%']
 
+    damdan.paginator:
+            class: DamDan\AppBundle\Services\Paginator
+
     damdan.doctrine_dish_listener:
             class: DamDan\AppBundle\EventListener\ImageUploadListener
             arguments: ['@damdan.image_uploader']

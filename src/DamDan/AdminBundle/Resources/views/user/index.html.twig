@@ -32,6 +32,7 @@
         {% endfor %}
         </tbody>
     </table>
+    {% include 'DamDanAdminBundle:pagination:pagination.html.twig' with {'paginator': users} %}
     {% if is_granted('ROLE_CHEF') %}
         <a class="ui button inverted green" href="{{ path('admin_user_new') }}">Create a new user</a>
     {% endif %}
