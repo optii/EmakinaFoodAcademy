@@ -5,7 +5,8 @@ namespace DamDan\AppBundle\Controller;
 use DamDan\AppBundle\Entity\Reservation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Reservation controller.
@@ -40,7 +41,7 @@ class ReservationController extends Controller
     public function newAction(Request $request)
     {
         $reservation = new Reservation();
-        $form = $this->createForm('DamDan\AppBundle\Form\ReservationType', $reservation);
+        $form = $this->createForm('DamDan\AppBundle\Form\Type\ReservationType', $reservation);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -82,7 +83,7 @@ class ReservationController extends Controller
     public function editAction(Request $request, Reservation $reservation)
     {
         $deleteForm = $this->createDeleteForm($reservation);
-        $editForm = $this->createForm('DamDan\AppBundle\Form\ReservationType', $reservation);
+        $editForm = $this->createForm('DamDan\AppBundle\Form\Type\ReservationType', $reservation);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

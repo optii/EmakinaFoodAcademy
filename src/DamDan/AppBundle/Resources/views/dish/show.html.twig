@@ -15,9 +15,17 @@
         Description
     </h3>
     <p class="dish-description">{{ dish.description }}</p>
+
     <h3 class="ui horizontal divider header">
         <i class="warning sign icon"></i>
-        Allergies
+        Allergens
     </h3>
+    <p>
+        {% for allergen in dish.allergens %}
+            <span class="ui label orange">{{ allergen }}</span>
+        {% else %}
+            No allergens for this dish
+        {% endfor %}
+    </p>
 
 {% endblock %}

@@ -1,8 +1,9 @@
 <?php
 
-namespace DamDan\AppBundle\Form;
+namespace DamDan\AppBundle\Form\Type;
 
 use DamDan\AppBundle\Entity\Dish;
+use DamDan\AppBundle\Entity\Menu;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -46,7 +47,7 @@ class MenuType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'DamDan\AppBundle\Entity\Menu'
+            'data_class' => Menu::class
         ));
     }
 

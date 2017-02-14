@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="dish")
  * @ORM\Entity(repositoryClass="DamDan\AppBundle\Repository\DishRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Dish
 {
@@ -89,14 +90,12 @@ class Dish
      * Many Features have One Product.
      * @ORM\ManyToOne(targetEntity="DamDan\UserBundle\Entity\User", inversedBy="dishes")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     * @Assert\NotBlank()
      */
     private $author;
 
     /**
      * @var string
      *
-     * @Assert\NotBlank()
      * @ORM\Column(name="image", type="string", length=255)
      */
     private $image;
@@ -111,11 +110,7 @@ class Dish
 
     /**
      * Many Users have Many Groups.
-     * @ORM\ManyToMany(targetEntity="Allergen")
-     * @ORM\JoinTable(name="dishes_allergens",
-     *      joinColumns={@ORM\JoinColumn(name="dish_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="allergen_id", referencedColumnName="id")}
-     *      )
+     * @ORM\ManyToMany(targetEntity="Allergen", cascade={"persist"})
      */
     private $allergens;
 
@@ -124,6 +119,13 @@ class Dish
      * @ORM\ManyToMany(targetEntity="Menu", mappedBy="dishes")
      */
     private $menus;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\COlumn(name="updated_at", type="datetime")
+     */
+    private $updatedAt;
 
     public function __construct()
     {
@@ -147,7 +149,7 @@ class Dish
     public function setFile($file)
     {
         $this->file = $file;
-
+        $this->setUpdatedAt(new \DateTime());
         return $this;
     }
 
@@ -267,20 +269,6 @@ class Dish
     }
 
     /**
-     * Get status
-     * @return array
-     */
-    public static function getStatusArray()
-    {
-        return [
-            "Draft"         => self::STATUS_DRAFT,
-            "Accepted"      => self::STATUS_ACCEPTED,
-            "In validation" => self::STATUS_IN_VALIDATION,
-            "Refused"       => self::STATUS_REFUSED
-        ];
-    }
-
-    /**
      * Set homeMade
      *
      * @param boolean $homeMade
@@ -312,6 +300,28 @@ class Dish
     public function getAllergens()
     {
         return $this->allergens;
+    }
+
+    /**
+     * Add Allergen
+     *
+     * @param Allergen $allergen
+     * @return $this
+     */
+    public function addAllergen(Allergen $allergen){
+        $this->allergens->add($allergen);
+        return $this;
+    }
+
+    /**
+     * Remove Allergen
+     *
+     * @param Allergen $allergen
+     * @return $this
+     */
+    public function removeAllergen(Allergen $allergen){
+        $this->allergens->removeElement($allergen);
+        return $this;
     }
 
     /**
@@ -397,6 +407,47 @@ class Dish
     public function getCategoryColor()
     {
         return self::getCategoriesColors()[$this->getCategory()];
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime $updatedAt
+     * @return $this
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PreUpdate()
+     * @ORM\PrePersist()
+     */
+    public function preUpdate(){
+        $this->setUpdatedAt(new \DateTime());
+    }
+
+    /**
+     * Get status
+     * @return array
+     */
+    public static function getStatusArray()
+    {
+        return [
+            "Draft"         => self::STATUS_DRAFT,
+            "Accepted"      => self::STATUS_ACCEPTED,
+            "In validation" => self::STATUS_IN_VALIDATION,
+            "Refused"       => self::STATUS_REFUSED
+        ];
     }
 
     /**

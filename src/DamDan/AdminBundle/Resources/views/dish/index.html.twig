@@ -43,5 +43,7 @@
     {% include 'DamDanAdminBundle:pagination:pagination.html.twig' with {'paginator': dishes} %}
     {% if is_granted('ROLE_EDITOR') %}
         <a class="ui inverted button green" href="{{ path('admin_dish_new') }}"><i class="ui icon plus" ></i>Create a new dish</a>
+        <a class="ui inverted button blue" href="{{ path('admin_allergen_index') }}">View allergens</a>
     {% endif %}
+
 {% endblock %}

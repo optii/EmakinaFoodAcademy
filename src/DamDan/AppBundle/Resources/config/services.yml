@@ -27,7 +27,6 @@ services:
                 - { name: doctrine.event_listener, event: prePersist }
                 - { name: doctrine.event_listener, event: preUpdate }
 
-
     damdan.reservation.listener:
             class: DamDan\AppBundle\EventListener\ReservationSubscriber
             arguments: ['@templating', '@mailer', '%dandam_app.administrator.email%']
@@ -35,14 +34,13 @@ services:
                 - { name: doctrine.event_subscriber, connection: default }
 
     damdan.form.type.dish:
-            class: DamDan\AppBundle\Form\DishType
+            class: DamDan\AppBundle\Form\Type\DishType
             arguments: ["@security.authorization_checker"]
             tags:
                 - { name: form.type, alias: damdan_dish_type }
 
     damdan.form.type.menu:
-                class: DamDan\AppBundle\Form\MenuType
+                class: DamDan\AppBundle\Form\Type\MenuType
                 arguments: ["@security.authorization_checker"]
                 tags:
                     - { name: form.type, alias: damdan_menu_type }
-

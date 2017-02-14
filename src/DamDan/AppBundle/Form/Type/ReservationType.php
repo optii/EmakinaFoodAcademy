@@ -1,11 +1,10 @@
 <?php
 
-namespace DamDan\AppBundle\Form;
+namespace DamDan\AppBundle\Form\Type;
 
-use Doctrine\DBAL\Types\TextType;
+use DamDan\AppBundle\Entity\Reservation;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -20,7 +19,6 @@ class ReservationType extends AbstractType
             ->add('date', DateTimeType::class, array(
                 'widget' => 'single_text',
                 'format' => DateTimeType::HTML5_FORMAT,
-                'model_timezone' => 'Europe/London',
             ))
             ->add('seats')
             ->add('email')
@@ -34,7 +32,7 @@ class ReservationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'DamDan\AppBundle\Entity\Reservation'
+            'data_class' => Reservation::class
         ));
     }
 

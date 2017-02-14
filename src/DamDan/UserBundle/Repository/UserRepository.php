@@ -1,7 +1,6 @@
 <?php
 
 namespace DamDan\UserBundle\Repository;
-use DamDan\UserBundle\Entity\User;
 
 /**
  * UserRepository

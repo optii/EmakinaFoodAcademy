@@ -6,8 +6,90 @@
     <h1 class="ui horizontal header divider">Dish creation</h1>
 
     {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input class="ui inverted green button" type="submit" value="Create" />
+    {{ form_row(form.title) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.price) }}
+    {{ form_row(form.file) }}
+    {% if form.status is defined %}
+        {{ form_row(form.status) }}
+    {% endif %}
+    {{ form_row(form.category) }}
+    {{ form_label(form.allergens) }}
+    <div class="field">
+    <label>Allergens</label>
+    <div class="ui grid">
+        <div class="thirteen wide column">
+            {{ form_row(form.allergens,  {'attr': {'class': 'allergen_dropdown'}}) }}
+        </div>
+        <div class="three wide column">
+            <button id="allergen_modal" class="ui button green"><i class="ui icon plus"></i> Allergen</button>
+        </div>
+    </div>
+    </div>
+    <br/>
+    {{ form_row(form.homeMade) }}
+    <input class="ui inverted green button" type="submit" value="Create"/>
     {{ form_end(form) }}
 
+    <div class="ui modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Add a new Allergen
+        </div>
+        <div class="content">
+            {{ form(allergen_form) }}
+        </div>
+        <div class="actions">
+            <div class="ui button red">Cancel</div>
+            <div id="allergen_add" class="ui button green">Add</div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#allergen_modal").click(function(e){
+                e.preventDefault();
+                $('.ui.modal').modal('show');
+            });
+
+            $("#allergen_add").click(function(){
+                handleNewAllergen();
+            });
+
+            $("form[name='damdan_appbundle_allergen']").submit(function(e){
+                e.preventDefault();
+                handleNewAllergen();
+            })
+
+        });
+
+
+
+        function handleNewAllergen(){
+            var $form = $("form[name='damdan_appbundle_allergen']");
+
+            $.ajax({
+                url: $form.attr('action'), // Le nom du fichier indiqué dans le formulaire
+                type: $form.attr('method'), // La méthode indiquée dans le formulaire (get ou post)
+                data: $form.serialize(), // Je sérialise les données (j'envoie toutes les valeurs présentes dans le formulaire)
+                success: function(data) { // Je récupère la réponse du fichier PHP
+                    var $select = $('#damdan_appbundle_dish_allergens');
+                    var $menu = $('.allergen_dropdown .menu');
+
+                    $select.append('<option value="'+data.id+'" selected>'+data.name+'</option>');
+                    $menu.append('<div class="item" data-value="'+data.id+'">'+data.name+'</div>');
+                    $('#damdan_appbundle_allergen_name').val('');
+                    $select.find('.menu')
+                    $select.dropdown('refresh');
+
+                    $select.dropdown('set selected', data.id);
+                    console.log($select.dropdown('get value'));
+                    $('.ui.modal').modal('hide');
+                }
+            });
+        }
+    </script>
 {% endblock %}
