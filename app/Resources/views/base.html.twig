@@ -39,6 +39,7 @@
                                 <a class="item" href="{{ path('admin_dish_index') }}">View</a>
                                 {% if is_granted('ROLE_EDITOR') %}
                                     <a class="item" href="{{ path('admin_dish_new') }}">New</a>
+                                    <a class="item" href="{{ path('admin_allergen_index') }}">Allergens</a>
                                 {% endif %}
                                 <div class="divider"></div>
                                 {% if is_granted('ROLE_SERVER') %}

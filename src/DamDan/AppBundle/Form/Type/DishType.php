@@ -30,7 +30,9 @@ class DishType extends AbstractType
         $builder->add('title')
             ->add('description')
             ->add('price')
-            ->add('file', FileType::class)
+            ->add('file', FileType::class, array(
+                'required' => false
+            ))
         ;
 
         if ($this->authorizationChecker->isGranted('ROLE_EDITOR')) {

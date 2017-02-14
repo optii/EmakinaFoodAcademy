@@ -114,7 +114,7 @@ class DishController extends Controller
                 $this->sendReviewEmail($dish, $emails);
             }
 
-            return $this->redirectToRoute('admin_dish_edit', array('id' => $dish->getId()));
+            return $this->redirectToRoute('admin_dish_show', array('id' => $dish->getId()));
         }
 
         $allergenForm = $this->createForm(AllergenType::class, null, [

@@ -1,0 +1,31 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+    {{ breadcrumb({'home': 'home',  'admin_index': 'admin', 'admin_allergen_index': 'allergens'}) }}
+    <h1 class="ui horizontal header divider">Allergens</h1>
+    <table class="ui table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for allergen in allergens %}
+            <tr>
+                <td>{{ allergen.id }}</td>
+                <td>{{ allergen.name }}</td>
+                <td>
+                    {% if is_granted('ROLE_CHEF') %}
+                        {{ render(controller('DamDanAdminBundle:Allergen:listDelete', { 'allergen': allergen })) }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if is_granted('ROLE_EDITOR') %}
+        <a class="ui inverted button green" href="{{ path('admin_allergen_new') }}"><i class="ui icon plus" ></i>Create a new allergen</a>
+    {% endif %}
+{% endblock %}

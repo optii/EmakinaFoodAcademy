@@ -21,26 +21,26 @@ class AllergenController extends Controller
      * @Route("/", name="admin_allergen_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $allergens = $em->getRepository('DamDanAppBundle:Allergen')->findAll();
-        return $this->json($allergens);
+        if($request->isXmlHttpRequest()){
+            return $this->json($allergens);
+        }
+
+        return $this->render('DamDanAdminBundle:allergen:index.html.twig', array('allergens' => $allergens));
     }
 
     /**
      * Creates a new dish entity.
      *
      * @Route("/new", name="admin_allergen_new")
-     * @Method({"POST"})
+     * @Method({"GET", "POST"})
      * @Security("is_granted('ROLE_EDITOR')")
      */
     public function newAction(Request $request)
     {
-        if(!$request->isXmlHttpRequest()){
-            return $this->json(['message' => 'You can only access this through Ajax'], 400);
-        }
-
         $allergen = new Allergen();
         $form = $this->createForm(AllergenType::class, $allergen);
         $form->handleRequest($request);
@@ -50,9 +50,59 @@ class AllergenController extends Controller
             $em->persist($allergen);
             $em->flush($allergen);
 
-            return $this->json($allergen);
+            if($request->isXmlHttpRequest()){
+                return $this->json($allergen);
+            }
+
+            return $this->redirectToRoute('admin_allergen_index');
         }
 
-        return $this->json(['error' => 'bad request'], 500);
+        if($request->isXmlHttpRequest()){
+            return $this->json(['error' => 'bad request'], 500);
+        }
+
+        return $this->render('DamDanAdminBundle:allergen:new.html.twig', array('form' => $form->createView()));
+    }
+
+    /**
+     * Deletes an allergen entity.
+     *
+     * @Route("/{id}", name="admin_allergen_delete")
+     * @Method("DELETE")
+     * @Security("is_granted('ROLE_CHEF')")
+     */
+    public function deleteAction(Request $request, Allergen $allergen)
+    {
+        $form = $this->createDeleteForm($allergen);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($allergen);
+            $em->flush($allergen);
+        }
+
+        return $this->redirectToRoute('admin_allergen_index');
+    }
+
+    public function listDeleteAction(Allergen $allergen){
+        $form = $this->createDeleteForm($allergen);
+        return $this->render('DamDanAdminBundle:allergen:delete.html.twig', array('form' => $form->createView()));
+    }
+
+    /**
+     * Creates a form to delete an allergen entity.
+     *
+     * @param Allergen $allergen The allergen entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm(Allergen $allergen)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('admin_allergen_delete', array('id' => $allergen->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+            ;
     }
 }
