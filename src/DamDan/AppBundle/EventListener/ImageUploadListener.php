@@ -31,7 +31,6 @@ class ImageUploadListener
     public function preUpdate(PreUpdateEventArgs $args)
     {
         $entity = $args->getEntity();
-        dump($entity);
         $this->uploadFile($entity);
     }
 
