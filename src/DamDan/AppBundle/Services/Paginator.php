@@ -26,7 +26,10 @@ class Paginator implements \IteratorAggregate
         $this->currentPage = $currentPage;
 
         $offset = ($this->currentPage - 1) * $this->objectsPerPage;
-        $this->nbPages = count($this->objects) / $objectsPerPage;
+        $this->nbPages = ceil(count($this->objects) / $objectsPerPage);
+        dump($this->nbPages);
+        dump(count($this->objects));
+        dump($offset);
         $this->objects = $this->objects->slice($offset, $this->objectsPerPage);
     }
 
@@ -44,8 +47,8 @@ class Paginator implements \IteratorAggregate
 
     public function getPages(){
         $pages = array();
-        for($i=0 ; $i < $this->nbPages; $i++){
-            $pages[$i] = $i+1;
+        for($i=1 ; $i <= $this->nbPages; $i++){
+            $pages[$i] = $i;
         }
         return $pages;
     }

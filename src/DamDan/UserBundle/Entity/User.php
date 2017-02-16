@@ -217,8 +217,11 @@ class User implements UserInterface
      * @return $this
      */
     public function removeRole($role){
-        if($key = array_search($role, $this->getRoles()) !== false){
-            array_splice($this->getRoles(), $key, 1);
+        $key = array_search($role, $this->getRoles());
+        if($key !== false){
+            $roles = $this->getRoles();
+            array_splice($roles, $key, 1);
+            $this->roles = $roles;
         }
 
         return $this;
