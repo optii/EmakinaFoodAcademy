@@ -37,7 +37,8 @@ class MenuType extends AbstractType
 
         $builder->add('dishes', EntityType::class, array(
             'class'    => 'DamDanAppBundle:Dish',
-            'multiple' => true
+            'multiple' => true,
+            'required' => false
         ));
     }
 

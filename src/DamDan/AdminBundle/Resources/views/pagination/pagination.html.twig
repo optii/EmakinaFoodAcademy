@@ -3,7 +3,7 @@
         <div class="center aligned column">
             <div class="ui pagination menu">
                 {% for i in paginator.pages %}
-                    <a href="{{ path("admin_reservation_index", {'page': i})  }}" class="{% if i == paginator.currentPage %}active {% endif %} item">
+                    <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'page': i}))  }}" class="{% if i == paginator.currentPage %}active {% endif %} item">
                         {{ i }}
                     </a>
                 {% endfor %}

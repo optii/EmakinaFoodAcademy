@@ -20,14 +20,15 @@ class UserType extends AbstractType
         $builder
             ->add('username')
             ->add('email')
-            ->add('password', RepeatedType::class, array(
+            ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
                 'first_options'  => array('label' => 'Password'),
-                'second_options' => array('label' => 'Repeat Password')
+                'second_options' => array('label' => 'Repeat Password'),
             ))
             ->add('roles', ChoiceType::class, array(
                 'choices' => User::getRolesArray(),
-                'multiple' => true
+                'multiple' => true,
+                'by_reference' => false
             ))
         ;
     }
